@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.12
+@version        0.2.13
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -40,6 +40,42 @@
       background-color: var(--jd-surface) !important;
       color: var(--jd-text) !important;
       border-color: var(--jd-border) !important;
+    }
+
+    /* Admin navigation only; preserve its layout, icon sprites, and status badges. */
+    body .org-admin-tab-group-panel,
+    body .org-admin-tab-group-panel :is(.double-chevron-button-container,
+        .org-admin-tab-group, .tab-group-content, .tab-panel,
+        .admin-view-selection-panel, .admin-view-button) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .org-admin-tab-group-panel :is(.tabs, .tab-button) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .org-admin-tab-group-panel .double-chevron-button {
+      background-color: transparent !important;
+      color: var(--jd-text) !important;
+    }
+    body .org-admin-tab-group-panel :is(.admin-view-group__heading, .double-chevron-button .fas) {
+      color: var(--jd-text) !important;
+    }
+    body .org-admin-tab-group-panel .dropdown-menu__li--divider {
+      border-color: var(--jd-border) !important;
+    }
+    body .org-admin-tab-group-panel :is(.tab-button, .admin-view-button, .double-chevron-button):hover:not(:disabled, [aria-disabled="true"], .active, [aria-selected="true"], .selected) {
+      background-color: var(--jd-hover) !important;
+    }
+    body .org-admin-tab-group-panel :is(.tab-button.active, .tab-button[aria-selected="true"], .admin-view-button.selected) {
+      background-color: var(--jd-selected) !important;
+      border-color: var(--jd-focus) !important;
+    }
+    body .org-admin-tab-group-panel :is(.tab-button, .admin-view-button, .double-chevron-button):focus-visible {
+      outline: 2px solid var(--jd-focus) !important;
+      box-shadow: 0 0 2px var(--jd-focus) !important;
     }
 
     /* Item-filter sidebar; keep checkbox sprites and filter behavior untouched. */

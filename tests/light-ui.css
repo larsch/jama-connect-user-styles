@@ -62,6 +62,23 @@ body { background: white; color: #282828; font: 14px sans-serif; }
 .table-style .x-list-body-inner > dl.x-list-selected,
 .table-style .x-list-body-inner > dl.x-list-selected.x-list-over { background-color: #bbddff; }
 
+/* Independent light admin-navigation stand-ins, including a strong focus rule. */
+.org-admin-tab-group-panel { width: 220px; background: #eee; color: #333; }
+.org-admin-tab-group-panel :is(.double-chevron-button-container, .org-admin-tab-group,
+    .tabs, .tab-group-content, .tab-panel, .admin-view-selection-panel) { background: white; }
+.org-admin-tab-group-panel .tab-group-content { border: 1px solid #bbb; }
+.tab-button, .admin-view-button, .double-chevron-button { background: #eee; color: #333; border: 1px solid #bbb; }
+.tab-button.active, .admin-view-button.selected { background: #bbddff; }
+.tab-button:hover, .admin-view-button:hover, .double-chevron-button:hover { background: #ddeeff; }
+.admin-view-selection-panel .admin-view-button:focus-visible,
+.tab-button:focus-visible, .double-chevron-button:focus-visible {
+    outline: 2px solid #0088cc !important; box-shadow: 0 0 2px #0088cc !important;
+}
+.double-chevron-button .fas { color: #666; }
+.admin-view-group__heading { color: #333; }
+.dropdown-menu__li--divider { border-bottom: 1px solid #bbb; }
+.org-admin-tab-group-panel:not(.open) .org-admin-tab-group { display: none; }
+
 /* Expansion is application-owned; theme tests must preserve its geometry. */
 .details-container.height-limited, .description.height-limited { max-height: 48px; overflow: hidden; }
 .single-item-view-form-row > .single-item-view-form-cell--lluck > .ll-form-control { display: block; }

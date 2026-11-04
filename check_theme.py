@@ -52,6 +52,14 @@ with sync_playwright() as p:
     def style(element, prop):
         return page.locator("#" + element).evaluate("(el, prop) => getComputedStyle(el).getPropertyValue(prop)", prop)
 
+    admin_baseline = {(el, prop): style(el, prop) for el, prop in [
+        ("admin-nav", "background-color"), ("admin-nav", "width"),
+        ("admin-views", "background-color"), ("admin-org-tab", "background-color"),
+        ("admin-details", "background-color"), ("admin-details", "color"),
+        ("admin-selected", "background-color"), ("admin-sprite", "background-image"),
+        ("admin-warning-icon", "color"), ("admin-badge", "color"),
+        ("unrelated-tab", "background-color"), ("unrelated-admin-button", "background-color")
+    ]}
     baseline = {(el, prop): style(el, prop) for el, prop in [
         ("panel", "background-color"), ("status", "background-color"),
         ("image", "background-image"), ("input", "border-top-color"),
@@ -76,6 +84,37 @@ with sync_playwright() as p:
     for el in ("gradient-header", "gradient-important", "gradient-button"):
         assert style(el, "background-image") != "none", el
     page.add_style_tag(content=inner)
+    for el in ("admin-nav", "admin-collapse-container", "admin-tab-group", "admin-content",
+               "admin-tab-panel", "admin-views", "admin-details"):
+        assert style(el, "background-color") == "rgb(36, 36, 36)", el
+    for el in ("admin-nav", "admin-heading", "admin-details", "admin-selected",
+               "admin-org-tab", "admin-project-tab", "admin-collapse-icon"):
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+    assert style("admin-tabs", "background-color") == "rgb(44, 44, 44)"
+    assert style("admin-project-tab", "background-color") == "rgb(44, 44, 44)"
+    for el in ("admin-org-tab", "admin-selected"):
+        assert style(el, "background-color") == "rgb(53, 71, 41)", el
+    for el in ("admin-details", "admin-project-tab", "admin-collapse", "admin-selected", "admin-org-tab"):
+        page.locator("#" + el).hover()
+        selected = el in ("admin-selected", "admin-org-tab")
+        assert style(el, "background-color") == ("rgb(53, 71, 41)" if selected else "rgb(53, 58, 47)"), el
+        page.locator("#" + el).focus()
+        assert style(el, "outline-color") == "rgb(146, 209, 83)", el
+        assert "rgb(146, 209, 83)" in style(el, "box-shadow"), el
+    page.locator("#admin-project-tab").evaluate("el => el.setAttribute('aria-selected', 'true')")
+    assert style("admin-project-tab", "background-color") == "rgb(53, 71, 41)"
+    page.locator("#admin-project-tab").evaluate("el => el.setAttribute('aria-selected', 'false')")
+    page.mouse.move(0, 0)
+    for el, prop in (("admin-sprite", "background-image"), ("admin-warning-icon", "color"),
+                     ("admin-badge", "color"), ("admin-nav", "width"),
+                     ("unrelated-tab", "background-color"), ("unrelated-admin-button", "background-color")):
+        assert style(el, prop) == admin_baseline[el, prop], (el, prop)
+    for el in ("admin-content", "admin-divider"):
+        assert style(el, "border-bottom-color") == "rgb(80, 80, 80)", el
+    page.locator("#admin-nav").evaluate("el => el.classList.remove('open')")
+    assert style("admin-tab-group", "display") == "none"
+    assert style("admin-nav", "background-color") == "rgb(36, 36, 36)"
+    page.locator("#admin-nav").evaluate("el => el.classList.add('open')")
     assert style("template-list", "background-color") == "rgb(36, 36, 36)"
     for el, background in (("template-odd", "rgb(36, 36, 36)"), ("template-even", "rgb(44, 44, 44)")):
         row = page.locator("#" + el)
@@ -353,6 +392,8 @@ with sync_playwright() as p:
     assert style("input", "outline-color") == "rgb(146, 209, 83)"
     page.emulate_media(media="print")
     assert style("panel", "background-color") == print_before
+    for (el, prop), expected in admin_baseline.items():
+        assert style(el, prop) == expected, (el, prop)
     for el, prop in (("template-list", "background-color"), ("template-odd", "background-color"),
                      ("template-even", "background-color"), ("template-even", "border-bottom-color"),
                      ("template-name", "color"), ("template-even-name", "color")):
@@ -384,6 +425,6 @@ with sync_playwright() as p:
     browser.close()
 
 print("PASS: CSS syntax/domain wrapper; panels, headers, trees, selection, disabled states, input error border;")
-print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/simple-grid/striped-list/history-panel/layout fixtures;")
+print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/admin-nav/simple-grid/striped-list/history-panel/layout fixtures;")
 print("      preserved rich text, authored color, status/diff/danger fills, image sprite, focus, and print isolation.")
 print("Synthetic fixture only; live Jama screens and Stylus installation still need manual verification.")
