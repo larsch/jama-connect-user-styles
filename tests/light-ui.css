@@ -1,0 +1,58 @@
+/* Hand-written synthetic light UI for offline selector regression tests.
+   Not a vendor stylesheet or a capture of any installation. The values model
+   contrasting surfaces and states; they do not claim exact live UI parity. */
+body { background: white; color: #282828; font: 14px sans-serif; }
+.x-panel-body { background: #fafafa; color: #333; }
+.x-form-text { background: white; color: #333; border: 1px solid #bbb; }
+.x-form-invalid { border-color: #b00020; }
+.bootstrap-scope .btn-danger { background: #b00020; color: white; }
+.diff-tag-added { background: #bcf5bc; color: #123412; }
+
+/* Distinct nonempty asset stand-ins make preservation assertions meaningful.
+   Gradients are used instead of copying proprietary images or loading assets. */
+.j-icon, .j-org-picklists-icon, .x-tool, .j-configure-icon,
+.jama-checkbox .checkbox-input-checked, .jama-checkbox .checkbox-input-indeterminate,
+.filter-option-multi-checkbox { background-image: linear-gradient(black, gray); }
+.jama-checkbox .checkbox-input { background-color: white; }
+.jama-checkbox .checkbox-input:disabled { background-color: #ddd; }
+.j-grid-table .selectedUp > span { background-image: linear-gradient(black, gray); }
+.j-filter-search-header, .j-selector-panel .x-panel-header,
+.j-test-pass-fail-btn-ct button { background-image: linear-gradient(white, #ddd); }
+
+/* Representative cell-painted grid states, including semantic highlights. */
+.j-grid-table > thead > tr > :is(td, th) { background: white; color: #666; border: 1px solid #ccc; }
+.j-grid-table > tbody > tr > td { background: #fafafa; border-bottom: 1px solid #ddd; }
+.j-grid-table > tbody > tr.alt > td { background: white; }
+.j-grid-table > tbody > tr.j-row-zebra2 > td { background: #eee; }
+.j-grid-table > tbody > tr.selected > td { background: #cceeff; }
+.j-grid-table > tbody > tr.hovered > td { background: #ffe0aa; }
+.j-grid-table > tbody > tr.inactive > td { color: #999; }
+.j-grid-table > tbody > tr.j-item-sync-disabled-row { color: #999; }
+.j-grid-table > tbody > tr > td.changed { background: #fff3a0; }
+.j-grid-table > tbody > tr.j-grid-row-inherited > td { background: #ddffdd; }
+
+.jama-single-item-view { background-color: white !important; border-top: 1px solid #ccc; }
+.jama-checkbox .checkbox-input { appearance: none; width: 15px; height: 15px; border: 1px solid #ccc; }
+.text-cell-display-wrap table { color: #333; }
+.j-activity-stream-item .activity-item-header { background: #168cce; color: white; }
+.j-activity-stream-item .activity-item-body { color: #333; }
+.j-activity-stream-item .j-activity-formatted-special-notes,
+.j-activity-stream-item .j-activity-version-change-details { color: #333; }
+.j-activity-stream-item .j-activity-stream-text-when { color: #666; }
+
+.sidePanelContentOverride,
+.sidePanelContentOverride :is(.slide-over-panel-content-header, .breadcrumbs, .entries-container,
+    .activity-item-wrapper, .activity-item-title-bar, .details-container, .timestamp-container) {
+    background: white; color: #282828; border-color: #ccc;
+}
+.sidePanelContentOverride :is(.short-description-container, .description, .description-line,
+    .change-value, .categories-breadcrumb, .categories-breadcrumb > span) { color: #282828; }
+.sidePanelContentOverride :is(.timestamp, .change-value.empty) { color: #777; }
+.sidePanelContentOverride :is(.slide-over-panel-close-button, .search-field-icon, .expand-details-button,
+    .input-outline, .field_input) { background: white; color: #282828; border: 1px solid #ccc; }
+.sidePanelContentOverride :is(.expand-details-mock-link, .caret-icon, .slide-over-panel-close-button > i,
+    .search-field-icon > i, .ll-btn__label-icon, .ll-btn__label-icon > svg) { color: #555; }
+
+/* Expansion is application-owned; theme tests must preserve its geometry. */
+.details-container.height-limited, .description.height-limited { max-height: 48px; overflow: hidden; }
+.single-item-view-form-row > .single-item-view-form-cell--lluck > .ll-form-control { display: block; }

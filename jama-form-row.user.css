@@ -1,0 +1,56 @@
+/* ==UserStyle==
+@name           Jama Form Row Layout
+@namespace      local.jama-form-row
+@version        0.1.6
+@description    Optional label/value row layout for Jama redesigned item forms.
+@author         Lars Christensen
+==/UserStyle== */
+
+@-moz-document domain("jamacloud.com") {
+  @media screen {
+    /* Keep this add-on separate from the dark theme; disable it independently. */
+    body .single-item-view-form.is-redesign .single-item-view-form-row:not(.categories-siv-section)
+      .single-item-view-form-cell--lluck > .ll-form-control {
+      display: grid !important;
+      grid-template-columns: minmax(12rem, 24%) minmax(0, 1fr);
+      align-items: start;
+      column-gap: 1rem;
+      row-gap: 0.35rem;
+    }
+
+    body .single-item-view-form.is-redesign .single-item-view-form-row:not(.categories-siv-section)
+      .single-item-view-form-cell--lluck > .ll-form-control > .single-item-view-form-label {
+      min-width: 0;
+      padding-top: 0.125rem;
+      text-align: right;
+    }
+
+    body .single-item-view-form.is-redesign .single-item-view-form-row:not(.categories-siv-section)
+      .single-item-view-form-cell--lluck > .ll-form-control > .trigger-pencil-edit-hover {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: start;
+      min-width: 0;
+    }
+
+    body .single-item-view-form.is-redesign .single-item-view-form-row:not(.categories-siv-section)
+      .single-item-view-form-cell--lluck .single-item-view-form-value {
+      min-width: 0;
+      padding-top: 0.25em;
+    }
+
+    body .single-item-view-form.is-redesign .single-item-view-form-row:not(.categories-siv-section)
+      .single-item-view-form-cell--lluck:has(.single-item-view-form-value .text-renderer) .text-cell-display-wrap {
+      overflow-x: auto;
+    }
+
+    @media (max-width: 700px) {
+      body .single-item-view-form.is-redesign .single-item-view-form-row:not(.categories-siv-section)
+        .single-item-view-form-cell--lluck > .ll-form-control {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 0.2rem;
+      }
+
+    }
+  }
+}

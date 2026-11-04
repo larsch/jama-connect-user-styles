@@ -1,0 +1,871 @@
+/* ==UserStyle==
+@name           JAMA Dark Mode
+@namespace      local.jama-dark
+@version        0.2.11
+@description    Dark surfaces and readable controls for Jama Connect.
+@author         Lars Christensen
+==/UserStyle== */
+
+@-moz-document domain("jamacloud.com") {
+  /* Screen-only: do not recolor printed requirements or reports. */
+  @media screen {
+    :root {
+      /* Charcoal surfaces with lime accents. */
+      --jd-bg: #111111;
+      --jd-surface: #242424;
+      --jd-raised: #2c2c2c;
+      --jd-hover: #353a2f;
+      --jd-selected: #354729;
+      --jd-border: #505050;
+      --jd-text: #f5f5f5;
+      --jd-muted: #c4c4c4;
+      --jd-link: #a1ddfa;
+      --jd-focus: #92d153;
+      color-scheme: dark;
+    }
+
+    html, body {
+      background-color: var(--jd-bg) !important;
+      color: var(--jd-text) !important;
+      scrollbar-color: var(--jd-border) var(--jd-bg);
+    }
+
+    /* Component surfaces, not arbitrary divs or user-authored tables. */
+    body :is(.x-panel-body, .x-tab-panel-body, .x-grid3,
+             .x-grid3-viewport, .x-grid3-scroller, .x-tree,
+             .x-window-body, .x-form-display-field, .j-dashboard-portlet,
+             .jama-single-item-view, .ReactModal__Content,
+             .participants-wizard-panel,
+             .participants-wizard-panel .assignments-panel) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+
+    /* Item-filter sidebar; keep checkbox sprites and filter behavior untouched. */
+    body .filter-panel,
+    body .filter-panel :is(.filter-panel-inner, .filter-labels-panel-container,
+                          .flyout-container, .flyout-inner-container) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .filter-panel :is(.filter-panel-title, .filter-option-title,
+                          .filter-facet-display, .filter-facet-text) {
+      color: var(--jd-text) !important;
+    }
+    body .filter-panel .filter-facet-count {
+      color: var(--jd-muted) !important;
+    }
+    body .filter-panel .filter-labels-panel-clear-all {
+      background-color: transparent !important;
+      color: var(--jd-link) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .filter-panel .keyword-filter-input {
+      background-color: var(--jd-bg) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+      caret-color: var(--jd-text);
+    }
+
+    /* Stable component hooks for headers and execution screens. */
+    body :is(.content-header, .single-item-view-header-wrap) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body :is(.content-header-title, .single-item-view-header-title) {
+      color: var(--jd-text) !important;
+    }
+    body :is(#j-execute-test, .j-execute-test-content,
+             #j-execute-autoscroller) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    /* The loader's pseudo-elements mask the spinner: keep their fills in sync. */
+    body #loading-mask,
+    body #loading .loader::before,
+    body #loading .loader::after {
+      background-color: var(--jd-bg) !important;
+    }
+
+    /* Remove the legacy horizontal gradient sprite at its known component hooks. */
+    body :is(.j-filter-search-header, .j-email-tags li, .j-form-tags-list li,
+             .j-tree-filter-remove-button, #j-perspective-nav-west-tb,
+             .j-selector-panel .x-panel-header,
+             .j-selector-list-panel .x-panel-header,
+             .j-test-start-pause-button, .j-testcase-steps-readonly th,
+             .j-test-pass-fail-btn-ct button, .j-test-cycle-toolbar) {
+      background-image: none !important;
+    }
+
+    /* These images are decorative skins. Icon sprites are deliberately excluded. */
+    body :is(.x-panel-header, .x-panel-footer, .x-toolbar,
+             .x-tab-panel-header, .x-tab-panel-footer, .x-tab-strip,
+             .x-tab-strip-spacer, .x-grid3-header, .x-grid3-hd,
+             .x-window-tl, .x-window-tr, .x-window-tc,
+             .x-window-ml, .x-window-mr, .x-window-mc,
+             .x-window-bl, .x-window-br, .x-window-bc,
+             .x-window-footer, .x-fieldset,
+             .j-item-home-header-panel .x-panel-body,
+             .j-header-panel .x-column-inner, .j-set-result-header-panel) {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+
+    body :is(.x-panel-header-text, .x-window-header-text,
+             .x-grid3-hd-inner, .x-toolbar-text, .x-form-item-label,
+             .x-fieldset legend, .j-item-header-title) {
+      color: var(--jd-text) !important;
+    }
+
+    body :is(.j-item-header-sub-title, .j-item-header-instructions,
+             .j-item-header-step-nums, .x-form-empty-field) {
+      color: var(--jd-muted) !important;
+    }
+
+    /* Tab skins are split across nested elements in Ext JS 3. */
+    body .x-tab-strip :is(.x-tab-right, .x-tab-left, .x-tab-strip-inner) {
+      background-image: none !important;
+      background-color: transparent !important;
+    }
+    body .x-tab-strip li {
+      background-color: var(--jd-raised) !important;
+    }
+    body .x-tab-strip .x-tab-strip-over {
+      background-color: var(--jd-hover) !important;
+    }
+    body .x-tab-strip .x-tab-strip-active {
+      background-color: var(--jd-selected) !important;
+    }
+    body .x-tab-strip span.x-tab-strip-text {
+      color: var(--jd-text) !important;
+    }
+    body .x-tab-strip .x-tab-strip-active span.x-tab-strip-text {
+      color: var(--jd-focus) !important;
+    }
+    /* Match Jama's higher-specificity active-text variant. */
+    body .j-inactive-tab-icon-active-text .x-tab-strip-top .x-tab-strip-active .x-tab-strip-text {
+      color: var(--jd-focus) !important;
+    }
+
+    /* Leave per-cell status colors and diff highlights alone. */
+    body .x-grid3 .x-grid3-row {
+      background-color: var(--jd-surface) !important;
+      border-color: var(--jd-border) !important;
+      color: var(--jd-text) !important;
+    }
+    body .x-grid3 .x-grid3-row-alt {
+      background-color: var(--jd-raised) !important;
+    }
+    body .x-grid3 .x-grid3-row-over {
+      background-color: var(--jd-hover) !important;
+      background-image: none !important;
+    }
+    body .x-grid3 .x-grid3-row-selected {
+      background-color: var(--jd-selected) !important;
+      background-image: none !important;
+      border-color: var(--jd-focus) !important;
+    }
+    body .x-grid3 :is(.x-grid3-cell, .x-grid3-cell-inner) {
+      border-color: var(--jd-border) !important;
+    }
+
+    /* Simple admin grids paint their cells, not the surrounding Ext panel. */
+    body .j-grid-table {
+      color: var(--jd-text) !important;
+    }
+    body .j-grid-table > thead > tr > :is(td, th) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .j-grid-table > tbody > tr > td {
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    /* Preserve changed/inherited fills used by comparison tables. */
+    body .j-grid-table > tbody > tr:not(.j-grid-row-inherited) > td:not(.changed) {
+      background-color: var(--jd-surface) !important;
+    }
+    body .j-grid-table > tbody > tr:is(.alt, .j-row-zebra2):not(.j-grid-row-inherited) > td:not(.changed) {
+      background-color: var(--jd-raised) !important;
+    }
+    body .j-grid-table > tbody > tr:is(:hover, .hovered):not(.j-grid-row-inherited) > td:not(.changed) {
+      background-color: var(--jd-hover) !important;
+    }
+    body .j-grid-table > tbody > tr.selected:not(.j-grid-row-inherited) > td:not(.changed) {
+      background-color: var(--jd-selected) !important;
+    }
+    body .j-grid-table > tbody > tr > td.changed,
+    body .j-grid-table > tbody > tr.j-grid-row-inherited > td {
+      color: #202630 !important;
+    }
+    body .j-grid-table > tbody > tr:is(.inactive, .j-item-sync-disabled-row) > td:not(.changed) {
+      color: var(--jd-muted) !important;
+    }
+
+    body .x-tree-node,
+    body .x-tree-node a,
+    body .x-tree-node a span {
+      color: var(--jd-text) !important;
+    }
+    body .x-tree-node .x-tree-node-over {
+      background-color: var(--jd-hover) !important;
+    }
+    body .x-tree-node .x-tree-selected {
+      background-color: var(--jd-selected) !important;
+    }
+
+    /* Modern Jama tree; anchors may be controls without an href. */
+    body .rs-tree .rs-tree-node {
+      --ext-tree-node-hover-color: var(--jd-hover);
+      --ext-tree-node-selected-color: var(--jd-selected);
+      color: var(--jd-text) !important;
+    }
+    body .rs-tree-node-label .tree-node-content-wrapper a,
+    body .rs-tree-node-label .tree-node-content-wrapper a span {
+      color: var(--jd-text) !important;
+    }
+
+    body :is(.x-menu, .x-menu-plain, .x-tip, .x-tip-tl,
+             .x-tip-tr, .x-tip-tc, .x-tip-ml, .x-tip-mr,
+             .x-tip-mc, .x-tip-bl, .x-tip-br, .x-tip-bc,
+             .ext-el-mask-msg, .ext-el-mask-msg > div) {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body :is(a.x-menu-item, .x-menu-item-text, .x-tip-body, .x-tip-header) {
+      color: var(--jd-text) !important;
+    }
+    body .x-menu-item-active {
+      background-color: var(--jd-hover) !important;
+      background-image: none !important;
+      border-color: var(--jd-focus) !important;
+    }
+    body .x-menu-sep {
+      background-color: var(--jd-border) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .ext-el-mask {
+      background-color: var(--jd-bg) !important;
+    }
+
+    /* Custom checkboxes use black image marks; keep only the input square light. */
+    body .jama-checkbox {
+      background-color: transparent !important;
+    }
+    body .jama-checkbox .jama-checkbox-label {
+      color: var(--jd-text) !important;
+    }
+    body .jama-checkbox input.checkbox-input:not(:disabled):not([aria-disabled="true"]) {
+      background-color: var(--jd-text) !important;
+      border-color: var(--jd-muted) !important;
+    }
+
+    /* Modern item picklists: preserve option-color variables and validation borders. */
+    body .jama-rs-picklist .ll-form__select__trigger,
+    body .jama-rs-picklist .ll-form__select__trigger > button[role="combobox"] {
+      background-color: var(--jd-bg) !important;
+      color: var(--jd-text) !important;
+    }
+    body .jama-rs-picklist .ll-form__select__trigger :is(
+        .ll-form__select__trigger-label, .ll-form__select__trigger__icon) {
+      color: inherit !important;
+    }
+    body .jama-rs-picklist .ll-form__select__trigger > button[role="combobox"]:is(
+        :disabled, [aria-disabled="true"]) {
+      color: var(--jd-muted) !important;
+    }
+
+    /* Select popovers may be portaled outside the item-picklist wrapper. */
+    body .ll-form__select__popover {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .ll-form__select__popover .ll-form__select__item {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+    }
+    body .ll-form__select__popover .ll-form__select__item:is(:hover, :focus) {
+      background-color: var(--jd-hover) !important;
+    }
+    body .ll-form__select__popover .ll-form__select__item[aria-selected="true"] {
+      background-color: var(--jd-selected) !important;
+    }
+    body .ll-form__select__popover :is(.ll-form__select__item__label,
+        .ll-form__select__item__label strong, .ll-form__select__item__select-icon) {
+      color: inherit !important;
+    }
+
+    /* Preserve input error borders and trigger/button icons. */
+    body :is(input.x-form-text, textarea.x-form-field, select.x-form-field,
+             input.j-search-field, input.j-reviewer-select-search-box,
+             .bootstrap-scope input, .bootstrap-scope textarea,
+             .bootstrap-scope select) {
+      background-color: var(--jd-bg) !important;
+      color: var(--jd-text) !important;
+      caret-color: var(--jd-text);
+    }
+    body :is(input.x-form-text, textarea.x-form-field) {
+      background-image: none !important;
+    }
+    body :is(input, textarea)::placeholder {
+      color: var(--jd-muted) !important;
+      opacity: 1;
+    }
+
+    /* Flatten button frames, never .x-btn-text (which can hold an icon). */
+    body .x-btn :is(.x-btn-tl, .x-btn-tr, .x-btn-tc,
+                     .x-btn-ml, .x-btn-mr, .x-btn-mc,
+                     .x-btn-bl, .x-btn-br, .x-btn-bc) {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+    }
+    body .x-btn .x-btn-text {
+      color: var(--jd-text) !important;
+    }
+    /* Font glyphs in view toggles and icon-only buttons; preserve disabled colors. */
+    body button:is(.toggle-button, .jama-icon-button, .textless-button, .reload-button).btn-icon:not(:is(
+        [disabled], [aria-disabled="true"], .disabled, .x-item-disabled, .x-btn-disabled,
+        [disabled] *, [aria-disabled="true"] *, .disabled *, .x-item-disabled *, .x-btn-disabled *)) > i.fa {
+      color: var(--jd-text) !important;
+    }
+    /* ponytail: Boost only known gray tools, pager arrows, and the condensed
+       row-height image. Expand only after inspecting more assets/states. */
+    body :is(.x-tool,
+        button.x-btn-text:is(.j-configure-icon, .j-item-refresh-icon, .j-item-help-icon):empty,
+        button.ll-btn.row-height-menu > .ll-btn__label-icon > img[src$="/lh-condensed.png"],
+        .pager-inner button.pager-control > .pager-icon):not(:is(
+        [disabled], [aria-disabled="true"], .x-item-disabled, .x-btn-disabled, .disabled,
+        [disabled] *, [aria-disabled="true"] *, .x-item-disabled *, .x-btn-disabled *, .disabled *)) {
+      filter: brightness(1.7) !important;
+    }
+    body :is(.x-btn-over, .x-btn-pressed, .x-btn-menu-active) .x-btn-mc {
+      background-color: var(--jd-hover) !important;
+    }
+    body .bootstrap-scope .btn:not(.btn-primary):not(.btn-danger):not(.btn-warning):not(.btn-success):not(.btn-info):not(.btn-inverse):not(.btn-link) {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+      text-shadow: none !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .tags-facet-wrap .jui-tag-button-el,
+    body .tags-facet-wrap .jui-tag-button-el .button-content,
+    body .tags-facet-wrap .tag-button-close-area,
+    body .tags-facet-wrap .tag-button-close {
+      color: var(--jd-text) !important;
+    }
+
+    body a:link, body a:visited {
+      color: var(--jd-link);
+    }
+    body :is(input, textarea, select, button, a, [tabindex]):focus-visible {
+      outline: 2px solid var(--jd-focus) !important;
+      outline-offset: 1px !important;
+    }
+
+    /* Additional neutral component surfaces. */
+    body :is(.x-border-layout-ct, .x-panel-mc, .x-panel-ml,
+             .x-panel-ghost, .x-window-proxy, .x-layout-collapsed,
+             .x-box-mc, .x-combo-list, .x-combo-list-inner,
+             .j-form-table, .j-simple-item-form, .j-tag-combo-wrap,
+             .j-mselect, .ux-mselect, .j-report-format-selection-panel,
+             .j-version-notes, .j-notification-list-item, .j-added-disro-groups,
+             .j-whatsnew, .j-facet-item, .j-upload-filerow,
+             .j-relate-visual-box, .j-AlertBox,
+             .j-project-combo-tree-panel .x-panel-bwrap, .j-trace-view,
+             .admin-settings-view.lookup-matrix-wrapper,
+             .o-search-field-ct, .search-scope-separator,
+             .search-scope .x-form-field-wrap, .search-scope .x-form-field,
+             .j-ordered-list-menu) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    /* Ext JS paints the inner header separately when sorted/hovered/menu-open. */
+    body .x-grid3 :is(td.sort-asc, td.sort-desc, td.x-grid3-hd-over,
+                     td.x-grid3-hd-menu-open) .x-grid3-hd-inner {
+      background-color: var(--jd-hover) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+    }
+
+    /* Remove only confirmed decorative backgrounds, not arbitrary icons. */
+    body :is(.x-panel-ml, .x-box-mc, .x-combo-list-hd, .x-list-header,
+             .x-tree-headers, .x-grid3-hd-inner, .x-row-editor-body,
+             .j-project-combo-tree-panel .x-panel-bwrap, .j-trace-view,
+             .j-wizard-box-step-separator, .j-progress-box,
+             .j-progress-content .x-progress-inner) {
+      background-image: none !important;
+    }
+    body :is(.x-list-header, .x-tree-headers, .x-combo-list-hd,
+             .x-row-editor-body, .j-version-header, .j-hover-header,
+             .j-preview-header, .j-wizard-box-steps,
+             .j-wizard-box-step-separator, .j-wizard-dot-steps,
+             .j-view-switcher span, .j-progress-box, .j-progress-expander-wrap,
+             #j-header-action-bar, .j-form-table > thead > tr > td,
+             .j-form-table > thead > th) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .wizard .wizard-header-steps .step-current .step-display-name {
+      color: var(--jd-text) !important;
+    }
+    body :is(.x-combo-list-item, .x-list-body, .x-grid3-cell-text,
+             .x-grid3-hd-text, .x-dd-drag-ghost,
+             .j-form-table > tbody > tr > td.label,
+             .j-form-table > tbody > tr > td.labelRight,
+             .j-form-table > tbody > tr > td.propertyLabel,
+             .j-form-table > tbody > tr > td.titlePanel) {
+      color: var(--jd-text) !important;
+      text-shadow: none !important;
+    }
+    body :is(.x-combo-list-item, .x-grid3-hd-inner) {
+      border-color: var(--jd-border) !important;
+    }
+    body .x-dd-drag-ghost {
+      background-color: var(--jd-raised) !important;
+    }
+    body :is(.x-list-over, .j-data-over, .j-whatsnew-over,
+             .j-notification-list-item:hover, .j-facet-item:hover,
+             .j-selector-item:hover, .j-AlertBox:hover,
+             .j-view-switcher span:hover, .x-layout-collapsed-over,
+             .j-report-format-selection a:hover span) {
+      background-color: var(--jd-hover) !important;
+      color: var(--jd-text) !important;
+    }
+    body :is(.x-combo-list .x-combo-selected, .x-list-selected,
+             .j-data-selected, .j-comment-selected, .ux-mselect-selected,
+             .j-view-switcher .j-view-switcher-selected,
+             .j-view-switcher span:active,
+             .j-ordered-list-menu .ordered-list-menu-item:hover,
+             .j-ordered-list-menu .x-view-selected) {
+      background-color: var(--jd-selected) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-focus) !important;
+    }
+    /* Jama marks selected filter items with this inline pale-blue background. */
+    body .j-selector-item[style*="rgb(230, 250, 255)"],
+    body .j-selector-item[style*="rgb(230, 250, 255)"]:hover {
+      background-color: var(--jd-selected) !important;
+      color: var(--jd-text) !important;
+    }
+    /* Numberer backgrounds are skins; checkbox and expander sprites stay intact. */
+    body .x-grid3 .x-grid3-body .x-grid3-td-numberer {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+    }
+    body .x-grid3 .x-grid3-body .x-grid3-td-numberer .x-grid3-cell-inner {
+      color: var(--jd-muted) !important;
+    }
+    body .x-grid3 .x-grid3-cell-selected {
+      background-color: var(--jd-selected) !important;
+      color: var(--jd-text) !important;
+    }
+    body .x-grid3 .x-grid3-cell-selected span {
+      color: var(--jd-text) !important;
+    }
+
+    /* Calendar popups: selected, today, and disabled remain distinguishable. */
+    body :is(.x-date-picker, .x-date-mp, .x-date-mmenu) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body :is(.x-date-inner th, .x-date-bottom, .x-date-mp-btns,
+             .x-date-middle, .x-date-left, .x-date-right) {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .x-date-inner td { border-color: var(--jd-surface) !important; }
+    body :is(.x-date-inner a, .x-date-mp-month a, .x-date-mp-year a) {
+      color: var(--jd-text) !important;
+    }
+    body :is(.x-date-inner a:hover, .x-date-mp-month a:hover, .x-date-mp-year a:hover) {
+      background-color: var(--jd-hover) !important;
+    }
+    body :is(.x-date-inner .x-date-selected a, td.x-date-mp-sel a) {
+      background-color: var(--jd-selected) !important;
+      background-image: none !important;
+      border-color: var(--jd-focus) !important;
+    }
+    body .x-date-inner .x-date-today a { border-color: var(--jd-focus) !important; }
+    body :is(.x-date-inner .x-date-prevday a, .x-date-inner .x-date-nextday a) {
+      color: var(--jd-muted) !important;
+    }
+    body .x-date-inner .x-date-disabled a {
+      background-color: var(--jd-bg) !important;
+      color: var(--jd-muted) !important;
+    }
+    body :is(.x-progress-inner, .j-rollup-field .progress-bar) {
+      background-color: var(--jd-bg) !important;
+      background-image: none !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .x-progress-text-back { color: var(--jd-text) !important; }
+
+    /* Scoped Bootstrap chrome; semantic buttons, alerts, and badges are excluded. */
+    body .bootstrap-scope :is(.modal, .dropdown-menu, .popover, .well,
+                              .form-actions, .modal-footer, .popover-title) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .bootstrap-scope .dropdown-menu > li > a {
+      color: var(--jd-text) !important;
+    }
+    body .bootstrap-scope .dropdown-menu > li > a:hover,
+    body .bootstrap-scope .dropdown-menu > li > a:focus {
+      background-color: var(--jd-hover) !important;
+      background-image: none !important;
+    }
+    body .bootstrap-scope .dropdown-menu > .disabled > a {
+      color: var(--jd-muted) !important;
+    }
+
+    /* Comment chrome can be dark; authored comment bodies remain light islands. */
+    body .j-all-comments-panel :is(.comment-wrap, .reply-single, .agree-modal,
+                                  .comment-filters-wrap, .reply-field-container,
+                                  .connected-user-count-container) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .j-all-comments-panel .reply-field-container { background-image: none !important; }
+    body .j-all-comments-panel .comment-type-lozenge:not(.nonAddressable) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+    }
+    body .j-all-comments-panel .comment-detail-date-time {
+      color: var(--jd-muted) !important;
+    }
+
+    /* Modern page shells are separate from Ext panels. */
+    body :is(.jui-container.bootstrap-scope, .homepage-wrapper .container_page,
+             .project-home-panel, .dashboard-container, .items-view,
+             .review-center) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+    }
+    body :is(.homepage-wrapper .container_shaded, .dashboard-header,
+             .dashboard-header__container, .tree-toolbar, .tree-nav,
+             .items-view .pager, #j-project-header-panel) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+      --border-color: var(--jd-border);
+      --background-color-toolbar: var(--jd-raised);
+    }
+    body :is(.homepage-wrapper, .items-view, .jama-single-item-view,
+             .project-home-panel, .review-center, .item-header) :is(h1, h2, h3, .view-title) {
+      color: var(--jd-text) !important;
+    }
+    body :is(.single-item-view-form-text-label, .label-text,
+             .current-version-info, .item-header .type-icon,
+             .item-header .item-header-column-left span,
+             .item-breadcrumb_navigate-link, .categories-siv-section__toolbar-label,
+             .main-views__status, .main-views__status li,
+             .main-views__status__description > span,
+             .homepage-wrapper .formatted-names, .homepage-wrapper .active-review-info) {
+      color: var(--jd-muted) !important;
+    }
+    body :is(.item-header .link-button, .link-button.small-btn,
+             .ll-tabs__button, .review-center__applied-filters) {
+      color: var(--jd-text) !important;
+    }
+    body :is(.primary-link, .item-breadcrumb_navigate-link):is(a, button),
+    body .x-portlet .x-panel-header a {
+      color: var(--jd-link) !important;
+    }
+    /* Do not recolor the status renderer nested inside these neutral cell shells. */
+    body .jui-grid.table-striped .body-wrapper .grid-column .grid-column-row-item:nth-child(n) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .jui-grid.table-striped .body-wrapper .grid-column .grid-column-row-item:nth-child(even) {
+      background-color: var(--jd-raised) !important;
+    }
+    body .jui-grid.table-striped .body-wrapper .grid-column .grid-column-row-item.row-checked {
+      background-color: var(--jd-selected) !important;
+      border-color: var(--jd-focus) !important;
+    }
+    body .jui-grid.table-striped .body-wrapper .grid-column .grid-column-row-item.row-checked > div:not(.lookup-renderer):not(.cell-lookup) {
+      background-color: var(--jd-selected) !important;
+    }
+    body .review-center .ll-data-table :is(th, td, tr) {
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .review-center .ll-data-table :is(thead th, tbody tr, td.actions-column) {
+      background-color: var(--jd-surface) !important;
+    }
+    body .review-center .ll-data-table tbody tr:nth-child(even),
+    body .review-center .ll-data-table tbody tr:nth-child(even) > td.actions-column {
+      background-color: var(--jd-raised) !important;
+    }
+    body .review-center .ll-data-table tbody tr:hover,
+    body .review-center .ll-data-table tbody tr:hover > td.actions-column {
+      background-color: var(--jd-hover) !important;
+    }
+    body .j-review-reading .j-review-item-wrap {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+    }
+    body .j-review-item-field-label { color: var(--jd-muted) !important; }
+    body .categories-siv-section :is(thead, tr) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+    }
+    body nav.breadcrumbs.read-me-only,
+    body .breadcrumb-menu-pill > .item-header-row-discovery > .breadcrumbs {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+    }
+    body .homepage-wrapper .j-progress-bar .progress-bar {
+      background-color: var(--jd-raised) !important;
+    }
+    /* Modern slide-over shell and activity history use neither Ext panels nor
+       the legacy activity-card hooks. Scope generic detail classes to history. */
+    body .sidePanelContentOverride,
+    body .sidePanelContentOverride .entries-container,
+    body .sidePanelContentOverride .activity-item-wrapper.activity-history-improvements,
+    body .sidePanelContentOverride .activity-item-wrapper.activity-history-improvements
+      :is(.details-container, .description, .timestamp-container) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .sidePanelContentOverride .slide-over-panel-content-header,
+    body .sidePanelContentOverride .slide-over-panel-content-header .breadcrumbs,
+    body .sidePanelContentOverride .activity-history-improvements .activity-item-title-bar {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .sidePanelContentOverride .activity-history-improvements
+      :is(.short-description-container, .description-line, .change-value,
+          .categories-breadcrumb, .categories-breadcrumb > span),
+    body .sidePanelContentOverride .slide-over-panel-content-header
+      :is(.content-header-title, .ll-btn__label-icon, .ll-btn__label-icon > svg) {
+      color: var(--jd-text) !important;
+    }
+    body .sidePanelContentOverride .slide-over-panel-content-header .item-breadcrumb_navigate-link {
+      color: var(--jd-link) !important;
+    }
+    body .sidePanelContentOverride #slide-over-panel-count-span,
+    body .sidePanelContentOverride #slide-over-panel-count-span b,
+    body .sidePanelContentOverride .activity-history-improvements :is(.timestamp, .change-value.empty) {
+      color: var(--jd-muted) !important;
+    }
+    body .sidePanelContentOverride .slide-over-panel-content-header .input-outline,
+    body .sidePanelContentOverride .slide-over-panel-content-header input.field_input {
+      background-color: var(--jd-bg) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+      caret-color: var(--jd-text);
+    }
+    body .sidePanelContentOverride .slide-over-panel-content-header
+      :is(.slide-over-panel-close-button, .search-field-icon) {
+      background-color: transparent !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .sidePanelContentOverride .slide-over-panel-content-header
+      :is(.slide-over-panel-close-button, .search-field-icon) > i {
+      color: inherit !important;
+    }
+    body .sidePanelContentOverride .activity-history-improvements .expand-details-button {
+      background-color: transparent !important;
+      color: var(--jd-link) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .sidePanelContentOverride .activity-history-improvements
+      :is(.expand-details-mock-link, .caret-icon) {
+      color: var(--jd-link) !important;
+    }
+    body .sidePanelContentOverride
+      :is(.slide-over-panel-close-button, .search-field-icon, .expand-details-button):hover:not(:disabled):not([aria-disabled="true"]) {
+      background-color: var(--jd-hover) !important;
+    }
+
+    /* Item activity cards are distinct from the comment stream below. */
+    body .j-activity-stream-item,
+    body .j-activity-stream-item .activity-item-body {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .j-activity-stream-item .activity-item-header {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .j-activity-stream-item :is(.j-activity-stream-text-username,
+                                    .j-activity-action,
+                                    .j-activity-formatted-special-notes) {
+      color: var(--jd-text) !important;
+    }
+    body .j-activity-stream-item :is(.j-activity-version-change-details,
+                                    .j-activity-stream-text-when) {
+      color: var(--jd-muted) !important;
+    }
+    body .j-activity-stream-item .j-activity-text-navigation a:not([disabled]):not([aria-disabled="true"]) {
+      color: var(--jd-link) !important;
+    }
+
+    /* Stream is a separate page, not a descendant of .j-all-comments-panel. */
+    body .comment-stream :is(.comment-wrap, .reply-field-container),
+    body :is(.add-comment-section.comment-stream-interaction,
+             .filter-options-wrap.comment-stream-interaction) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      background-image: none !important;
+    }
+
+    /* Explicit foregrounds on modern headers and control labels. */
+    body :is(.views-column .type-icon, .views-column .view-toggle-title,
+             .main-views__title h2, .j-review-item-name h2,
+             .discovery-actions .link-button, .review-baseline-link-container a,
+             .discovery-views__breadcrumb__menu li, .pager .page-info,
+             .add-comment-section .page-title, .comment-stream .page-title, .comment-stream .comment-author,
+             .comment-stream .comment-author span,
+             .dashboard-header-secondary-view__checkbox-label) {
+      color: var(--jd-text) !important;
+    }
+    body :is(.item-count, .item-count__label, .review-center__items-count,
+             .homepage-wrapper .dropdown-caret-text,
+             .comment-stream .comment-detail-date-time) {
+      color: var(--jd-muted) !important;
+    }
+    body :is(.homepage-wrapper .recent-item-link,
+             .comment-stream .description-link, .comment-stream .js-item-reference-show-link,
+             .comment-stream .js-mute-notifications, .j-review-item-name .sequence-number) {
+      color: var(--jd-link) !important;
+    }
+    body .ll-btn--link .ll-btn__content { color: var(--jd-link) !important; }
+    /* Neutral control variants only: semantic primary/danger/AI actions stay original. */
+    body .ll-btn:not(.ll-btn--primary):not(.ll-btn--danger):not(.ll-btn--link):not(.link-button):not([class*="ll-global-navigation"]) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .ll-btn:not(.ll-btn--primary):not(.ll-btn--danger):not(.ll-btn--link) .ll-btn__content {
+      color: inherit !important;
+    }
+    body .dashboard-header .component-library.btn:not(.btn-primary):not(.btn-danger) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .dashboard-header .component-library.btn:not(.btn-primary):not(.btn-danger) .btn__content {
+      color: var(--jd-text) !important;
+    }
+
+    /* Manage categories dialog: preserve category values and transfer state. */
+    body .ll-dialog {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .ll-dialog :is(.ll-dialog__header, .ll-dialog__footer) {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .manage-categories-modal :is(.transfer-list__header, .transfer-list__body) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .manage-categories-modal :is(.transfer-list__count, .transfer-list--tree__count) {
+      color: var(--jd-muted) !important;
+    }
+
+    /* Disabled states must win over the normal foreground rules above. */
+    body .x-item-disabled,
+    body .x-item-disabled *,
+    body .x-btn-disabled *,
+    body .x-tree-node .x-tree-node-disabled a span,
+    body .x-tree-node.j-tree-node-inactive a span,
+    body .x-tab-strip .x-tab-strip-disabled span.x-tab-strip-text {
+      color: var(--jd-muted) !important;
+    }
+
+    /* Opt these displayed tables into dark mode without recoloring all authored
+       descendants. Explicit colors on spans/links remain untouched. */
+    body :is(.text-cell-display-wrap, .cke .cke_wysiwyg_div) table {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body :is(.text-cell-display-wrap, .cke .cke_wysiwyg_div) table :is(th, td) {
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body :is(.text-cell-display-wrap, .cke .cke_wysiwyg_div) table th {
+      background-color: var(--jd-raised) !important;
+    }
+
+    /* Inline CKEditor content is editable UI, not a read-only rich-text island.
+       Do not blanket-recolor descendants: authored spans keep their colors. */
+    body .cke.cke_chrome :is(.cke_inner, .cke_contents.j-ckeditor-contents,
+                   .cke_wysiwyg_div.cke_editable, textarea.cke_source) {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+      color-scheme: dark;
+    }
+    body .cke :is(.cke_top, .cke_bottom, .cke_combo_button) {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .cke :is(.cke_combo_text, .cke_combo_label) {
+      color: var(--jd-text) !important;
+    }
+    body .cke .cke_combo_arrow {
+      border-top-color: var(--jd-text) !important;
+    }
+    /* Keep dark bitmap toolbar icons readable on their original light groups. */
+    body .cke .cke_toolgroup {
+      color-scheme: light;
+    }
+
+    /* ponytail: Rich-text islands stay light to preserve authored colors/diffs.
+       Expand only after checking real documents and editor iframe behavior.
+       No blanket descendant recoloring, image inversion, or iframe injection. */
+    body :is(.j-text-box, .j-reading-pane-description,
+             .j-review-item-description, .j-richtext-portlet,
+             .j-item-reference-description, .inline-richtext,
+             div:has(> .j-hover-description), div:has(> .j-hover-statusfields),
+             .j-all-comments-panel .root-comment-text,
+             .j-all-comments-panel .reply-comment-text,
+             .j-all-comments-panel .comment-contents .comment,
+             .comment-stream .js-root-comment-text-wrapper,
+             .comment-stream .reply-comment-text) {
+      background-color: #ffffff !important;
+      color: #202630 !important;
+      color-scheme: light;
+    }
+    body :is(.j-text-box, .j-reading-pane-description,
+             .j-review-item-description, .j-richtext-portlet,
+             .j-item-reference-description, .inline-richtext) a {
+      color: #245c9e;
+    }
+  }
+}

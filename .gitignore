@@ -1,0 +1,13 @@
+# Keep browser captures, authentication state, and private review output local.
+*.har
+review-output/
+review-session.json
+*review-profile/
+style-audit.json
+.env
+.env.*
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.venv/
