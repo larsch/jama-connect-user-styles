@@ -52,6 +52,12 @@ with sync_playwright() as p:
     def style(element, prop):
         return page.locator("#" + element).evaluate("(el, prop) => getComputedStyle(el).getPropertyValue(prop)", prop)
 
+    recent_row = page.locator("#recent-row")
+    recent_before = style("recent-row", "background-color")
+    recent_row.evaluate("el => el.classList.add('container_row-active')")
+    recent_active_before = style("recent-row", "background-color")
+    assert recent_active_before == "rgb(188, 213, 255)"
+    recent_row.evaluate("el => el.classList.remove('container_row-active')")
     admin_baseline = {(el, prop): style(el, prop) for el, prop in [
         ("admin-nav", "background-color"), ("admin-nav", "width"),
         ("admin-views", "background-color"), ("admin-org-tab", "background-color"),
@@ -84,6 +90,21 @@ with sync_playwright() as p:
     for el in ("gradient-header", "gradient-important", "gradient-button"):
         assert style(el, "background-image") != "none", el
     page.add_style_tag(content=inner)
+    assert style("recent-row", "background-color") == recent_before
+    recent_icon_source = page.locator("#recent-icon").get_attribute("src")
+    recent_row.evaluate("el => el.classList.add('container_row-active')")
+    assert style("recent-row", "background-color") == "rgb(53, 58, 47)"
+    assert style("recent-row", "color") == "rgb(245, 245, 245)"
+    assert style("recent-link", "color") == "rgb(161, 221, 250)"
+    assert style("recent-bookmark", "color") == "rgb(130, 130, 130)"
+    assert page.locator("#recent-icon").get_attribute("src") == recent_icon_source
+    assert style("recent-icon", "filter") == "none"
+    assert style("unrelated-active", "background-color") == "rgb(190, 210, 250)"
+    page.emulate_media(media="print")
+    assert style("recent-row", "background-color") == recent_active_before
+    page.emulate_media(media="screen")
+    recent_row.evaluate("el => el.classList.remove('container_row-active')")
+    assert style("recent-row", "background-color") == recent_before
     for el in ("admin-nav", "admin-collapse-container", "admin-tab-group", "admin-content",
                "admin-tab-panel", "admin-views", "admin-details"):
         assert style(el, "background-color") == "rgb(36, 36, 36)", el
@@ -425,6 +446,6 @@ with sync_playwright() as p:
     browser.close()
 
 print("PASS: CSS syntax/domain wrapper; panels, headers, trees, selection, disabled states, input error border;")
-print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/admin-nav/simple-grid/striped-list/history-panel/layout fixtures;")
+print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/admin-nav/recent-item/simple-grid/striped-list/history-panel/layout fixtures;")
 print("      preserved rich text, authored color, status/diff/danger fills, image sprite, focus, and print isolation.")
 print("Synthetic fixture only; live Jama screens and Stylus installation still need manual verification.")

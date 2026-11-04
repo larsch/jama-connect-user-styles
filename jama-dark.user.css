@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.13
+@version        0.2.14
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -803,6 +803,11 @@
              .homepage-wrapper .dropdown-caret-text,
              .comment-stream .comment-detail-date-time) {
       color: var(--jd-muted) !important;
+    }
+    /* Recent-item hover is a JS-applied class; leave other active rows alone. */
+    body .recent-items-container .recent-items-list-wrapper .container_row-active {
+      background-color: var(--jd-hover) !important;
+      color: var(--jd-text) !important;
     }
     body :is(.homepage-wrapper .recent-item-link,
              .comment-stream .description-link, .comment-stream .js-item-reference-show-link,

@@ -79,6 +79,9 @@ body { background: white; color: #282828; font: 14px sans-serif; }
 .dropdown-menu__li--divider { border-bottom: 1px solid #bbb; }
 .org-admin-tab-group-panel:not(.open) .org-admin-tab-group { display: none; }
 
+/* Recent-item hover is controlled by an application-added class, not :hover. */
+.recent-items-container .recent-items-list-wrapper .container_row-active { background-color: #bcd5ff; }
+
 /* Expansion is application-owned; theme tests must preserve its geometry. */
 .details-container.height-limited, .description.height-limited { max-height: 48px; overflow: hidden; }
 .single-item-view-form-row > .single-item-view-form-cell--lluck > .ll-form-control { display: block; }
