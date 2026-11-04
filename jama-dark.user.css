@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.11
+@version        0.2.12
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -429,6 +429,23 @@
              .j-form-table > tbody > tr > td.titlePanel) {
       color: var(--jd-text) !important;
       text-shadow: none !important;
+    }
+    /* Ext table-style lists paint zebra rows independently of the list body. */
+    body .table-style .x-list-body,
+    body .table-style .x-list-body-inner > dl {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .table-style .x-list-body-inner > dl:nth-child(even) {
+      background-color: var(--jd-raised) !important;
+    }
+    body .table-style .x-list-body-inner > dl.x-list-over {
+      background-color: var(--jd-hover) !important;
+    }
+    body .table-style .x-list-body-inner > dl.x-list-selected {
+      background-color: var(--jd-selected) !important;
+      border-color: var(--jd-focus) !important;
     }
     body :is(.x-combo-list-item, .x-grid3-hd-inner) {
       border-color: var(--jd-border) !important;

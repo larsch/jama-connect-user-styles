@@ -64,14 +64,38 @@ with sync_playwright() as p:
         ("disabled-document-icon", "color"),
         ("jama-checked", "background-image"), ("jama-indeterminate", "background-image"),
         ("filter-checkbox", "background-image"),
-        ("jama-disabled", "background-color")
+        ("jama-disabled", "background-color"),
+        ("template-list", "background-color"), ("template-odd", "background-color"),
+        ("template-even", "background-color"), ("template-even", "border-bottom-color"),
+        ("template-name", "color"), ("template-even-name", "color")
     ]}
+    assert baseline["template-even", "background-color"] == "rgb(255, 255, 255)"
     page.emulate_media(media="print")
     print_before = style("panel", "background-color")
     page.emulate_media(media="screen")
     for el in ("gradient-header", "gradient-important", "gradient-button"):
         assert style(el, "background-image") != "none", el
     page.add_style_tag(content=inner)
+    assert style("template-list", "background-color") == "rgb(36, 36, 36)"
+    for el, background in (("template-odd", "rgb(36, 36, 36)"), ("template-even", "rgb(44, 44, 44)")):
+        row = page.locator("#" + el)
+        assert style(el, "background-color") == background, el
+        assert style(el, "border-bottom-color") == "rgb(80, 80, 80)", el
+        # Ext JS applies these classes; selection must win even on hovered stripes.
+        for classes, expected in (("x-list-over", "rgb(53, 58, 47)"),
+                                  ("x-list-selected", "rgb(53, 71, 41)"),
+                                  ("x-list-selected x-list-over", "rgb(53, 71, 41)")):
+            row.evaluate("(el, classes) => el.className = classes", classes)
+            assert style(el, "background-color") == expected, (el, classes)
+        row.evaluate("el => el.className = ''")
+        assert style(el, "background-color") == background, el
+    for el in ("template-name", "template-even-name"):
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+    for el in ("template-edit", "template-delete"):
+        assert style(el, "color") == "rgb(161, 221, 250)", el
+    assert style("template-authored", "color") == "rgb(200, 30, 40)"
+    assert style("unrelated-definition", "background-color") == "rgb(255, 255, 255)"
+    assert style("unrelated-definition", "color") == "rgb(0, 0, 0)"
     for el in ("history-panel", "history-entries", "history-entry", "history-details", "history-timestamp-container"):
         assert style(el, "background-color") == "rgb(36, 36, 36)", el
     for el in ("history-header", "history-breadcrumbs", "history-title-bar"):
@@ -329,6 +353,10 @@ with sync_playwright() as p:
     assert style("input", "outline-color") == "rgb(146, 209, 83)"
     page.emulate_media(media="print")
     assert style("panel", "background-color") == print_before
+    for el, prop in (("template-list", "background-color"), ("template-odd", "background-color"),
+                     ("template-even", "background-color"), ("template-even", "border-bottom-color"),
+                     ("template-name", "color"), ("template-even-name", "color")):
+        assert style(el, prop) == baseline[el, prop], (el, prop)
     assert style("activity-header", "background-color") == baseline["activity-header", "background-color"]
     assert style("simple-cell", "background-color") == baseline["simple-cell", "background-color"]
     assert style("history-panel", "background-color") == baseline["history-panel", "background-color"]
@@ -356,6 +384,6 @@ with sync_playwright() as p:
     browser.close()
 
 print("PASS: CSS syntax/domain wrapper; panels, headers, trees, selection, disabled states, input error border;")
-print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/simple-grid/history-panel/layout fixtures;")
+print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/simple-grid/striped-list/history-panel/layout fixtures;")
 print("      preserved rich text, authored color, status/diff/danger fills, image sprite, focus, and print isolation.")
 print("Synthetic fixture only; live Jama screens and Stylus installation still need manual verification.")

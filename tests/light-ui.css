@@ -53,6 +53,15 @@ body { background: white; color: #282828; font: 14px sans-serif; }
 .sidePanelContentOverride :is(.expand-details-mock-link, .caret-icon, .slide-over-panel-close-button > i,
     .search-field-icon > i, .ll-btn__label-icon, .ll-btn__label-icon > svg) { color: #555; }
 
+/* Synthetic Ext list table: even-row paint must not beat hover/selection. */
+.table-style .x-list-body { background: white; color: #333; }
+.table-style .x-list-body-inner > dl { border-bottom: 1px solid #bbb; }
+.table-style .x-list-body-inner > dl:nth-child(even),
+.table-style .x-list-body-inner > dl.x-list-over:nth-child(even) { background-color: #fff; }
+.table-style .x-list-body-inner > dl.x-list-over { background-color: inherit; }
+.table-style .x-list-body-inner > dl.x-list-selected,
+.table-style .x-list-body-inner > dl.x-list-selected.x-list-over { background-color: #bbddff; }
+
 /* Expansion is application-owned; theme tests must preserve its geometry. */
 .details-container.height-limited, .description.height-limited { max-height: 48px; overflow: hidden; }
 .single-item-view-form-row > .single-item-view-form-cell--lluck > .ll-form-control { display: block; }
