@@ -7,7 +7,9 @@ Unofficial, independent user styles for Jama Connect, maintained as a personal p
 - **[JAMA Dark Mode](jama-dark.user.css)**: charcoal surfaces, light text, lime selection/focus accents, and light blue links. Covers common legacy Ext JS and modern Jama UI components without changing layout.
 - **[Jama Form Row Layout](jama-form-row.user.css)**: optional label/value columns for redesigned item forms. Labels align right on wider screens; narrow screens stack the fields. Enable or disable it independently of the dark theme.
 
-Both styles are screen-only and target `jamacloud.com` and its subdomains. For a self-hosted installation, replace the domain in your local copy with your own host. Component coverage depends on your Jama Connect version.
+- **[Jama Connect AI Button Hider](jama-hide-ai.user.css)**: hides the assistive AI launcher button independently of the dark theme and form layout.
+
+All styles are screen-only and target `jamacloud.com` and its subdomains. For a self-hosted installation, replace the domain in your local copy with your own host. Component coverage depends on your Jama Connect version.
 
 ## Install with Stylus
 
@@ -16,7 +18,7 @@ Both styles are screen-only and target `jamacloud.com` and its subdomains. For a
 3. Alternatively, open Stylus → Manage → Write new style, paste the complete file, accept UserCSS mode if offered, and save.
 4. Reload Jama Connect. Disable other recoloring extensions for the site while testing.
 
-The optional form layout can be installed the same way. Disabling either style restores the application's appearance or layout for that style's scope.
+The optional form layout and AI button hider can be installed the same way. Each style can be disabled independently to restore the application's appearance or layout for that style's scope.
 
 ## Scope and limitations
 
@@ -43,7 +45,7 @@ To use an installed Microsoft Edge instead:
 uv run --with playwright --with tinycss2 python check_theme.py --browser-channel msedge
 ```
 
-The test uses only hand-written synthetic HTML/CSS and an intercepted `https://example.test/` page. It does not read HAR captures, use credentials, or connect to a Jama tenant. It checks both styles' syntax, representative computed styles, state changes, preserved colors/assets, print isolation, and responsive form layout. It cannot establish compatibility with every live Jama screen or verify a Stylus installation.
+The test uses only hand-written synthetic HTML/CSS and an intercepted `https://example.test/` page. It does not read HAR captures, use credentials, or connect to a Jama tenant. It checks all styles' syntax, plus representative computed styles, state changes, preserved colors/assets, print isolation, and responsive form layout for the dark theme and form layout styles. It cannot establish compatibility with every live Jama screen or verify a Stylus installation.
 
 For a manual pass, inspect the project tree, item grid, an item with formatted text/tables, a dialog, menus, activity history, keyboard navigation, and print preview. Test the form layout at wide and narrow widths.
 

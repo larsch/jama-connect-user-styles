@@ -1,0 +1,15 @@
+/* ==UserStyle==
+@name           Jama Connect AI Button Hider
+@namespace      local.jama-hide-ai
+@version        0.1.0
+@description    Hide the Jama Connect assistive AI launcher button.
+@author         Lars Christensen
+==/UserStyle== */
+
+@-moz-document domain("jamacloud.com") {
+  @media screen {
+    .assistive-ai-sidebar-experience__launcher {
+      display: none;
+    }
+  }
+}
