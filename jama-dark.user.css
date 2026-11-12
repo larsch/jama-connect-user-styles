@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.16
+@version        0.2.17
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -800,11 +800,55 @@
       color: var(--jd-link) !important;
     }
 
-    /* Stream root bodies use dark defaults; authored descendants keep their colors. */
-    body .comment-stream .js-root-comment-text-wrapper {
+    /* Stream threads and their standalone inline editor use dark defaults.
+       Do not recolor authored descendants or the separate description preview. */
+    body .comment-stream :is(.comment-container, .comment-parent, .comment-replies,
+                            .reply-single, .js-root-comment-text-wrapper,
+                            .reply-comment-text),
+    body .comment-stream .reply-field-container .reply-field.inline-richtext {
       background-color: var(--jd-surface) !important;
       color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
       color-scheme: dark;
+    }
+    body .comment-stream .reply-field.inline-richtext {
+      caret-color: var(--jd-text);
+    }
+    body .comment-stream :is(.js-root-comment-text-wrapper, .reply-comment-text,
+                            .reply-field.inline-richtext) a {
+      color: var(--jd-link);
+    }
+    body .comment-stream :is(.js-root-comment-text-wrapper, .reply-comment-text,
+                            .reply-field.inline-richtext) .at-mention-key {
+      color: var(--jd-link);
+    }
+    body .comment-stream .reply-field-container :is(.inline-richtext-placeholder,
+                                                   .inline-richtext-placeholder span) {
+      color: var(--jd-muted) !important;
+    }
+    /* Only plain Comment badges: action/issue/resolution badges keep their colors. */
+    body .comment-stream .comment-type-lozenge[data-artifactids=""][data-resolvedartifactids=""]:not(.nonAddressable),
+    body .comment-stream .resolve-control {
+      background-color: var(--jd-raised) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    body .comment-stream .j-comment-actions :is(.js-agree-comment, .js-unagree-comment,
+        .js-mute-notifications, .js-unmute-notifications, .js-action-resolution):not([aria-disabled="true"]) {
+      color: var(--jd-link) !important;
+    }
+    body .comment-stream .reply-actions .btn:not(.btn-primary):not(.btn-danger):not(.btn-warning):not(.btn-success):not(.btn-info):not(.btn-inverse):not(.btn-link):not(:disabled):not(.disabled):not([aria-disabled="true"]) {
+      background-color: var(--jd-raised) !important;
+      background-image: none !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+      text-shadow: none !important;
+    }
+    body .comment-stream .reply-actions .btn:not(.btn-primary):not(.btn-danger):not(.btn-warning):not(.btn-success):not(.btn-info):not(.btn-inverse):not(.btn-link):not(:disabled):not(.disabled):not([aria-disabled="true"]):hover,
+    body .comment-stream .resolve-control:not([aria-disabled="true"]):hover,
+    body .comment-stream .j-comment-actions :is(.js-agree-comment, .js-unagree-comment,
+        .js-mute-notifications, .js-unmute-notifications):not([aria-disabled="true"]):hover {
+      background-color: var(--jd-hover) !important;
     }
 
     /* Stream is a separate page, not a descendant of .j-all-comments-panel. */
@@ -940,8 +984,7 @@
              div:has(> .j-hover-description), div:has(> .j-hover-statusfields),
              .j-all-comments-panel .root-comment-text,
              .j-all-comments-panel .reply-comment-text,
-             .j-all-comments-panel .comment-contents .comment,
-             .comment-stream .reply-comment-text) {
+             .j-all-comments-panel .comment-contents .comment) {
       background-color: #ffffff !important;
       color: #202630 !important;
       color-scheme: light;

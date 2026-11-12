@@ -82,6 +82,28 @@ body { background: white; color: #282828; font: 14px sans-serif; }
 /* Recent-item hover is controlled by an application-added class, not :hover. */
 .recent-items-container .recent-items-list-wrapper .container_row-active { background-color: #bcd5ff; }
 
+/* Synthetic Stream thread: light reply shells, explicit token/control colors,
+   and semantic stand-ins expose gaps without copying application CSS. */
+.comment-container { border: 1px solid #bbb; }
+.comment-replies, .reply-single, .reply-field-container { background: white; color: #333; }
+.comment-author, .comment-author span { color: #333; }
+.comment-detail-date-time { color: #777; }
+.comment-type-lozenge { background: #eee; color: #333; }
+.comment-type-lozenge[data-artifactids="example"] { background: #ffdb9a; color: #633b00; }
+.no-img-avatar { background: white; color: #6083dd; border: 1px solid #6083dd; }
+.decision-gem { background: #49aa66; }
+.at-mention-key { color: #333; }
+.at-mention-key::before { content: "@"; color: inherit; }
+.comment-control-container a { color: #777; }
+.comment-control-container :is(.fa-thumbs-up, .fas.fa-thumbs-up)::before { content: "+"; }
+.resolve-control { background: white; border: 1px solid #bbb; }
+.resolve-control a { color: #2355c7; }
+.reply-field.inline-richtext { background: white; color: #333; border: 1px solid #bbb; }
+.inline-richtext-placeholder, .inline-richtext-placeholder span { color: #999; }
+.reply-actions .btn { background: #eee; color: #333; border: 1px solid #bbb; }
+.reply-actions .btn-primary { background: #196fc4; color: white; }
+.reply-actions .btn:disabled { background: #ddd; color: #888; }
+
 /* Expansion is application-owned; theme tests must preserve its geometry. */
 .details-container.height-limited, .description.height-limited { max-height: 48px; overflow: hidden; }
 .single-item-view-form-row > .single-item-view-form-cell--lluck > .ll-form-control { display: block; }

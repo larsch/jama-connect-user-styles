@@ -95,6 +95,9 @@ with sync_playwright() as p:
         "compare-authored", "compare-changed-authored", "compare-authored-link",
         "compare-highlight", "compare-inline-diff", "compare-authored-table"
     ) for prop in ("background-color", "color", "color-scheme")}
+    stream_baseline = page.locator('[id^="stream-"], #unrelated-reply, #unrelated-mention, #unrelated-reply-editor').evaluate_all('''els => Object.fromEntries(els.map(el => [el.id,
+        Object.fromEntries(['background-color', 'color', 'border-top-color', 'color-scheme', 'display']
+            .map(prop => [prop, getComputedStyle(el).getPropertyValue(prop)]))]))''')
     assert baseline["template-even", "background-color"] == "rgb(255, 255, 255)"
     page.emulate_media(media="print")
     print_before = style("panel", "background-color")
@@ -431,9 +434,56 @@ with sync_playwright() as p:
     for el in ("wizard", "modal"):
         assert style(el, "background-color") == "rgb(44, 44, 44)", el
     assert style("progress", "background-color") == "rgb(17, 17, 17)"
-    for el in ("comment-body", "preview", "stream-comment-reply"):
+    for el in ("comment-body", "preview"):
         assert style(el, "background-color") == "rgb(255, 255, 255)", el
         assert style(el, "color") == "rgb(32, 38, 48)", el
+    for el in ("stream-card", "stream-parent", "stream-replies", "stream-reply-single",
+               "stream-comment-reply", "stream-editor-container", "stream-editor"):
+        assert style(el, "background-color") == "rgb(36, 36, 36)", el
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+    for el in ("stream-author", "stream-reply-author", "stream-reply-text", "stream-editor-text"):
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+    for el in ("stream-date", "stream-reply-date", "stream-placeholder", "stream-placeholder-text"):
+        assert style(el, "color") == "rgb(196, 196, 196)", el
+    for el in ("stream-mention", "stream-item-mention", "stream-reply-mention", "stream-editor-mention",
+               "stream-reference", "stream-reply-link", "stream-editor-link", "stream-agree", "stream-unagree",
+               "stream-reply-agree", "stream-mute", "stream-unmute", "stream-resolve-link"):
+        assert style(el, "color") == "rgb(161, 221, 250)", el
+    for el in ("stream-mention", "stream-reply-mention"):
+        assert page.locator("#" + el).evaluate("el => getComputedStyle(el, '::before').color") == "rgb(161, 221, 250)", el
+    for el in ("stream-badge", "stream-resolve", "stream-cancel", "stream-mention-button", "stream-actions-button"):
+        assert style(el, "background-color") == "rgb(44, 44, 44)", el
+        assert style(el, "border-top-color") == "rgb(80, 80, 80)", el
+    assert style("stream-badge", "color") == "rgb(245, 245, 245)"
+    assert style("stream-decision", "background-color") == stream_baseline["stream-decision"]["background-color"]
+    for el in ("stream-issue-badge", "stream-avatar", "stream-submit", "stream-disabled-button",
+               "stream-comment-diff", "stream-reply-diff", "stream-comment-authored", "stream-reply-authored",
+               "stream-editor-authored", "stream-authored-link", "stream-authored-mention", "stream-comment-highlight",
+               "unrelated-reply", "unrelated-mention"):
+        for prop in ("background-color", "color"):
+            assert style(el, prop) == stream_baseline[el][prop], (el, prop)
+    assert style("unrelated-reply-editor", "background-color") == "rgb(255, 255, 255)"
+    assert style("unrelated-reply-editor", "color") == "rgb(32, 38, 48)"
+    assert style("unrelated-reply-editor", "color-scheme") == "light"
+    for el in ("stream-comment-reply", "stream-editor"):
+        assert style(el, "color-scheme") == "dark", el
+    for el in ("stream-description", "stream-agree-count", "stream-editor-actions"):
+        assert style(el, "display") == "none", el
+    for el in ("stream-unagree", "stream-unmute"):
+        assert not page.locator("#" + el).is_visible(), el
+    page.locator("#stream-editor").focus()
+    assert style("stream-editor", "outline-color") == "rgb(146, 209, 83)"
+    assert style("stream-editor", "caret-color") == "rgb(245, 245, 245)"
+    page.locator("#stream-editor").evaluate("el => el.insertAdjacentText('beforeend', ' More draft text')")
+    assert "More draft text" in page.locator("#stream-editor").inner_text()
+    page.locator("#stream-editor-actions").evaluate("el => el.style.display = ''")
+    for el in ("stream-cancel", "stream-resolve", "stream-agree"):
+        page.locator("#" + el).hover()
+        assert style(el, "background-color") == "rgb(53, 58, 47)", el
+    page.locator("#stream-cancel").focus()
+    assert style("stream-cancel", "outline-color") == "rgb(146, 209, 83)"
+    page.locator("#stream-editor-actions").evaluate("el => el.style.display = 'none'")
+    page.mouse.move(0, 0)
     assert style("stream-comment-body", "background-color") == "rgb(36, 36, 36)"
     for el in ("stream-comment-body", "stream-comment-heading", "stream-comment-text"):
         assert style(el, "color") == "rgb(245, 245, 245)", el
@@ -469,6 +519,9 @@ with sync_playwright() as p:
         assert style(el, prop) == expected, (el, prop)
     for (el, prop), expected in compare_baseline.items():
         assert style(el, prop) == expected, (el, prop)
+    for el, props in stream_baseline.items():
+        for prop, expected in props.items():
+            assert style(el, prop) == expected, (el, prop)
     for el, prop in (("template-list", "background-color"), ("template-odd", "background-color"),
                      ("template-even", "background-color"), ("template-even", "border-bottom-color"),
                      ("template-name", "color"), ("template-even-name", "color")):
@@ -503,6 +556,6 @@ with sync_playwright() as p:
     browser.close()
 
 print("PASS: CSS syntax/domain wrapper; panels, headers, trees, selection, disabled states, input error border;")
-print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/admin-nav/recent-item/simple-grid/comparison-table/striped-list/history-panel/layout fixtures;")
+print("      combo/calendar/form/notification/wizard/progress/lookup/comment/stream-thread/modal/activity/admin-nav/recent-item/simple-grid/comparison-table/striped-list/history-panel/layout fixtures;")
 print("      preserved rich text, authored color, status/diff/danger fills, image sprite, focus, and print isolation.")
 print("Synthetic fixture only; live Jama screens and Stylus installation still need manual verification.")
