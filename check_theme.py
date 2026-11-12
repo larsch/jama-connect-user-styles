@@ -86,6 +86,15 @@ with sync_playwright() as p:
         ("template-even", "background-color"), ("template-even", "border-bottom-color"),
         ("template-name", "color"), ("template-even-name", "color")
     ]}
+    compare_baseline = {(el, prop): style(el, prop) for el in (
+        "compare-changed-cell", "compare-changed-field", "compare-missing-cell", "compare-missing",
+        "compare-rich-cell", "compare-rich-field", "compare-empty-field", "compare-rich-text",
+        "compare-unchanged-cell", "compare-unchanged-field", "compare-unchanged-text",
+        "compare-plain-field", "compare-inherited-cell", "compare-inherited-field",
+        "compare-changed-link", "compare-rich-link", "compare-unchanged-link", "compare-inherited-link",
+        "compare-authored", "compare-changed-authored", "compare-authored-link",
+        "compare-highlight", "compare-inline-diff", "compare-authored-table"
+    ) for prop in ("background-color", "color", "color-scheme")}
     assert baseline["template-even", "background-color"] == "rgb(255, 255, 255)"
     page.emulate_media(media="print")
     print_before = style("panel", "background-color")
@@ -159,6 +168,34 @@ with sync_playwright() as p:
     assert style("template-authored", "color") == "rgb(200, 30, 40)"
     assert style("unrelated-definition", "background-color") == "rgb(255, 255, 255)"
     assert style("unrelated-definition", "color") == "rgb(0, 0, 0)"
+    for el in ("compare-changed-field", "compare-rich-field", "compare-empty-field",
+               "compare-unchanged-field", "compare-plain-field", "compare-inherited-field"):
+        assert style(el, "background-color") == "rgba(0, 0, 0, 0)", el
+    for el in ("compare-changed-field", "compare-rich-field", "compare-rich-text", "compare-inherited-field"):
+        assert style(el, "color") == "rgb(32, 38, 48)", el
+        assert style(el, "color-scheme") == "light", el
+    for el in ("compare-unchanged-field", "compare-unchanged-text", "compare-plain-field"):
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+        assert style(el, "color-scheme") == "dark", el
+    assert style("compare-unchanged-link", "color") == "rgb(161, 221, 250)"
+    for el in ("compare-changed-link", "compare-rich-link", "compare-inherited-link"):
+        assert style(el, "color") == "rgb(36, 92, 158)", el
+    for el in ("compare-authored", "compare-changed-authored", "compare-authored-link",
+               "compare-highlight", "compare-inline-diff", "compare-authored-table", "compare-missing"):
+        for prop in ("background-color", "color"):
+            assert style(el, prop) == compare_baseline[el, prop], (el, prop)
+    for row_id in ("compare-changed-row", "compare-unchanged-row"):
+        row = page.locator("#" + row_id)
+        for classes, expected in (("", "rgb(36, 36, 36)"), ("alt", "rgb(44, 44, 44)"),
+                                  ("hovered", "rgb(53, 58, 47)"), ("selected", "rgb(53, 71, 41)")):
+            row.evaluate("(el, classes) => el.className = classes", classes)
+            if row_id == "compare-unchanged-row":
+                assert style("compare-unchanged-cell", "background-color") == expected, classes
+            for el in ("compare-changed-cell", "compare-rich-cell", "compare-missing-cell", "compare-inherited-cell"):
+                assert style(el, "background-color") == compare_baseline[el, "background-color"], (el, classes)
+        row.evaluate("el => el.className = ''")
+    assert style("unrelated-grid-rich", "background-color") == "rgb(255, 255, 255)"
+    assert style("unrelated-grid-rich", "color") == "rgb(32, 38, 48)"
     for el in ("history-panel", "history-entries", "history-entry", "history-details", "history-timestamp-container"):
         assert style(el, "background-color") == "rgb(36, 36, 36)", el
     for el in ("history-header", "history-breadcrumbs", "history-title-bar"):
@@ -430,6 +467,8 @@ with sync_playwright() as p:
     assert style("panel", "background-color") == print_before
     for (el, prop), expected in admin_baseline.items():
         assert style(el, prop) == expected, (el, prop)
+    for (el, prop), expected in compare_baseline.items():
+        assert style(el, prop) == expected, (el, prop)
     for el, prop in (("template-list", "background-color"), ("template-odd", "background-color"),
                      ("template-even", "background-color"), ("template-even", "border-bottom-color"),
                      ("template-name", "color"), ("template-even-name", "color")):
@@ -464,6 +503,6 @@ with sync_playwright() as p:
     browser.close()
 
 print("PASS: CSS syntax/domain wrapper; panels, headers, trees, selection, disabled states, input error border;")
-print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/admin-nav/recent-item/simple-grid/striped-list/history-panel/layout fixtures;")
+print("      combo/calendar/form/notification/wizard/progress/lookup/comment/modal/activity/admin-nav/recent-item/simple-grid/comparison-table/striped-list/history-panel/layout fixtures;")
 print("      preserved rich text, authored color, status/diff/danger fills, image sprite, focus, and print isolation.")
 print("Synthetic fixture only; live Jama screens and Stylus installation still need manual verification.")

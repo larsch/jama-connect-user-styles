@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.15
+@version        0.2.16
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -243,6 +243,26 @@
     }
     body .j-grid-table > tbody > tr:is(.inactive, .j-item-sync-disabled-row) > td:not(.changed) {
       color: var(--jd-muted) !important;
+    }
+
+    /* Comparison fields must reveal their cell's normal or semantic fill.
+       Header hooks avoid generated IDs and leave other grids/rich text alone. */
+    body .j-grid-table:has(> thead > tr > .documentValueHeader) > tbody > tr > td > .x-form-display-field {
+      background-color: transparent !important;
+      color: inherit !important;
+      color-scheme: dark;
+    }
+    body .j-grid-table:has(> thead > tr > .documentValueHeader) > tbody > tr > td.changed > .x-form-display-field,
+    body .j-grid-table:has(> thead > tr > .documentValueHeader) > tbody > tr.j-grid-row-inherited > td > .x-form-display-field {
+      color-scheme: light;
+    }
+    /* Defaults only: inline authored link colors still win. */
+    body .j-grid-table:has(> thead > tr > .documentValueHeader) > tbody > tr > td > .x-form-display-field a {
+      color: var(--jd-link);
+    }
+    body .j-grid-table:has(> thead > tr > .documentValueHeader) > tbody > tr > td.changed > .x-form-display-field a,
+    body .j-grid-table:has(> thead > tr > .documentValueHeader) > tbody > tr.j-grid-row-inherited > td > .x-form-display-field a {
+      color: #245c9e;
     }
 
     body .x-tree-node,
