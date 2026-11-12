@@ -24,7 +24,7 @@ The optional form layout and AI button hider can be installed the same way. Each
 
 - Includes panels, toolbars, tabs, grids, trees, menus, dialogs, common form controls, comments chrome, and activity history.
 - Covers common hover, selected, disabled, and keyboard-focus states. Some icon assets may still have poor contrast.
-- Read-only rich text and comment bodies generally remain light to preserve authored colors. Displayed tables and inline editor tables use dark default surfaces/text, but explicitly colored descendants are preserved.
+- Read-only rich text, item-comment bodies, and comment-stream replies remain light to preserve authored colors. Comment-stream root bodies, displayed tables, and inline editor tables use dark default surfaces/text, but explicitly colored descendants are preserved.
 - Semantic status/diff colors, charts, and primary/danger buttons are deliberately not blanket-recolored. Changed/inherited comparison-cell highlights retain their original fills.
 - No JavaScript runs in Jama, no remote assets are loaded by the styles, no image inversion is used, and editor iframes are not injected.
 - Printed content is excluded. This is not a complete or accessibility-certified theme; check the original view when interpreting color-coded data.

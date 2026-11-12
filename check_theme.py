@@ -75,6 +75,9 @@ with sync_playwright() as p:
         ("history-panel", "background-color"), ("history-sprite", "background-image"),
         ("history-details", "max-height"), ("history-details", "overflow"),
         ("danger", "background-color"), ("diff", "background-color"),
+        ("stream-comment-body", "background-color"), ("stream-comment-body", "color"),
+        ("stream-comment-text", "color"), ("stream-comment-body", "color-scheme"),
+        ("stream-comment-diff", "background-color"), ("stream-comment-diff", "color"),
         ("disabled-document-icon", "color"),
         ("jama-checked", "background-image"), ("jama-indeterminate", "background-image"),
         ("filter-checkbox", "background-image"),
@@ -391,9 +394,21 @@ with sync_playwright() as p:
     for el in ("wizard", "modal"):
         assert style(el, "background-color") == "rgb(44, 44, 44)", el
     assert style("progress", "background-color") == "rgb(17, 17, 17)"
-    for el in ("comment-body", "preview"):
+    for el in ("comment-body", "preview", "stream-comment-reply"):
         assert style(el, "background-color") == "rgb(255, 255, 255)", el
         assert style(el, "color") == "rgb(32, 38, 48)", el
+    assert style("stream-comment-body", "background-color") == "rgb(36, 36, 36)"
+    for el in ("stream-comment-body", "stream-comment-heading", "stream-comment-text"):
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+    assert style("stream-comment-body", "color-scheme") == "dark"
+    assert style("stream-comment-link", "color") == "rgb(161, 221, 250)"
+    assert style("stream-comment-authored", "color") == "rgb(200, 30, 40)"
+    assert style("stream-comment-highlight", "background-color") == "rgb(255, 200, 0)"
+    assert style("stream-comment-highlight", "color") == "rgb(0, 0, 0)"
+    for prop in ("background-color", "color"):
+        assert style("stream-comment-diff", prop) == baseline["stream-comment-diff", prop], prop
+    assert style("unrelated-comment-body", "background-color") == "rgb(255, 255, 255)"
+    assert style("unrelated-comment-body", "color") == "rgb(0, 0, 0)"
     for el in ("danger", "diff"):
         assert style(el, "background-color") == baseline[el, "background-color"], el
     for el in ("tag-button", "tag-label", "tag-remove", "tag-close"):
@@ -422,6 +437,9 @@ with sync_playwright() as p:
     assert style("activity-header", "background-color") == baseline["activity-header", "background-color"]
     assert style("simple-cell", "background-color") == baseline["simple-cell", "background-color"]
     assert style("history-panel", "background-color") == baseline["history-panel", "background-color"]
+    for el, prop in (("stream-comment-body", "background-color"), ("stream-comment-body", "color"),
+                     ("stream-comment-text", "color"), ("stream-comment-body", "color-scheme")):
+        assert style(el, prop) == baseline[el, prop], (el, prop)
     assert style("gray-icon", "filter") == "none"
     assert style("tool-icon", "filter") == "none"
     page.emulate_media(media="screen")

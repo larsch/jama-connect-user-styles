@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.14
+@version        0.2.15
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -780,6 +780,13 @@
       color: var(--jd-link) !important;
     }
 
+    /* Stream root bodies use dark defaults; authored descendants keep their colors. */
+    body .comment-stream .js-root-comment-text-wrapper {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      color-scheme: dark;
+    }
+
     /* Stream is a separate page, not a descendant of .j-all-comments-panel. */
     body .comment-stream :is(.comment-wrap, .reply-field-container),
     body :is(.add-comment-section.comment-stream-interaction,
@@ -914,7 +921,6 @@
              .j-all-comments-panel .root-comment-text,
              .j-all-comments-panel .reply-comment-text,
              .j-all-comments-panel .comment-contents .comment,
-             .comment-stream .js-root-comment-text-wrapper,
              .comment-stream .reply-comment-text) {
       background-color: #ffffff !important;
       color: #202630 !important;
