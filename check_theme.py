@@ -95,7 +95,7 @@ with sync_playwright() as p:
         "compare-authored", "compare-changed-authored", "compare-authored-link",
         "compare-highlight", "compare-inline-diff", "compare-authored-table"
     ) for prop in ("background-color", "color", "color-scheme")}
-    stream_baseline = page.locator('[id^="stream-"], #unrelated-reply, #unrelated-mention, #unrelated-reply-editor').evaluate_all('''els => Object.fromEntries(els.map(el => [el.id,
+    stream_baseline = page.locator('[id^="stream-"], #unrelated-reply, #unrelated-mention, #unrelated-reply-editor, #unrelated-new-editor, #unrelated-stream-filter, #unrelated-saved-name').evaluate_all('''els => Object.fromEntries(els.map(el => [el.id,
         Object.fromEntries(['background-color', 'color', 'border-top-color', 'color-scheme', 'display']
             .map(prop => [prop, getComputedStyle(el).getPropertyValue(prop)]))]))''')
     assert baseline["template-even", "background-color"] == "rgb(255, 255, 255)"
@@ -437,6 +437,42 @@ with sync_playwright() as p:
     for el in ("comment-body", "preview"):
         assert style(el, "background-color") == "rgb(255, 255, 255)", el
         assert style(el, "color") == "rgb(32, 38, 48)", el
+    assert style("stream-new-editor", "background-color") == "rgb(36, 36, 36)"
+    for el in ("stream-new-editor", "stream-new-text"):
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+        assert style(el, "color-scheme") == "dark", el
+    assert style("stream-new-placeholder", "color") == "rgb(196, 196, 196)"
+    for el in ("stream-new-mention", "stream-new-link"):
+        assert style(el, "color") == "rgb(161, 221, 250)", el
+    for el in ("stream-filter-input", "stream-saved-name", "stream-mobile-saved-name"):
+        assert style(el, "background-color") == "rgb(17, 17, 17)", el
+        assert style(el, "color") == "rgb(245, 245, 245)", el
+        assert style(el, "caret-color") == "rgb(245, 245, 245)", el
+        assert style(el, "border-top-color") == stream_baseline[el]["border-top-color"], el
+        assert page.locator("#" + el).evaluate("el => getComputedStyle(el, '::placeholder').color") == "rgb(196, 196, 196)", el
+    for el in ("stream-new-authored", "stream-new-authored-link", "stream-new-diff",
+               "stream-new-submit", "unrelated-stream-filter", "unrelated-saved-name"):
+        for prop in ("background-color", "color"):
+            assert style(el, prop) == stream_baseline[el][prop], (el, prop)
+    assert style("unrelated-new-editor", "background-color") == "rgb(255, 255, 255)"
+    assert style("unrelated-new-editor", "color") == "rgb(32, 38, 48)"
+    for el in ("stream-new-actions", "stream-saved-dropdown", "stream-saved-buttons"):
+        assert style(el, "display") == "none", el
+    page.locator("#stream-new-editor").focus()
+    assert style("stream-new-editor", "caret-color") == "rgb(245, 245, 245)"
+    assert style("stream-new-editor", "outline-color") == "rgb(146, 209, 83)"
+    page.locator("#stream-new-editor").press("Control+End")
+    page.keyboard.insert_text(" More draft text")
+    assert "More draft text" in page.locator("#stream-new-editor").inner_text()
+    page.locator("#stream-filter-input").fill("Example filter")
+    assert page.locator("#stream-filter-input").input_value() == "Example filter"
+    assert style("stream-filter-input", "outline-color") == "rgb(146, 209, 83)"
+    page.locator("#stream-saved-dropdown").evaluate("el => el.style.display = 'block'")
+    for el in ("stream-saved-name", "stream-mobile-saved-name"):
+        page.locator("#" + el).fill("Example view")
+        assert page.locator("#" + el).input_value() == "Example view", el
+        assert style(el, "outline-color") == "rgb(146, 209, 83)", el
+    page.locator("#stream-saved-dropdown").evaluate("el => el.style.display = ''")
     for el in ("stream-card", "stream-parent", "stream-replies", "stream-reply-single",
                "stream-comment-reply", "stream-editor-container", "stream-editor"):
         assert style(el, "background-color") == "rgb(36, 36, 36)", el
@@ -556,6 +592,6 @@ with sync_playwright() as p:
     browser.close()
 
 print("PASS: CSS syntax/domain wrapper; panels, headers, trees, selection, disabled states, input error border;")
-print("      combo/calendar/form/notification/wizard/progress/lookup/comment/stream-thread/modal/activity/admin-nav/recent-item/simple-grid/comparison-table/striped-list/history-panel/layout fixtures;")
+print("      combo/calendar/form/notification/wizard/progress/lookup/comment/stream-header/stream-thread/modal/activity/admin-nav/recent-item/simple-grid/comparison-table/striped-list/history-panel/layout fixtures;")
 print("      preserved rich text, authored color, status/diff/danger fills, image sprite, focus, and print isolation.")
 print("Synthetic fixture only; live Jama screens and Stylus installation still need manual verification.")

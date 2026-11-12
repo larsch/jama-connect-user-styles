@@ -101,8 +101,13 @@ body { background: white; color: #282828; font: 14px sans-serif; }
 .reply-field.inline-richtext { background: white; color: #333; border: 1px solid #bbb; }
 .inline-richtext-placeholder, .inline-richtext-placeholder span { color: #999; }
 .reply-actions .btn { background: #eee; color: #333; border: 1px solid #bbb; }
-.reply-actions .btn-primary { background: #196fc4; color: white; }
+.reply-actions .btn-primary, .add-comment-actions .btn-primary { background: #196fc4; color: white; }
 .reply-actions .btn:disabled { background: #ddd; color: #888; }
+
+/* The Stream header is a sibling of the thread list, not its descendant. */
+.add-comment-field.inline-richtext { background: white; color: #333; border: 1px solid #bbb; }
+.filter-field, .js-saved-filter-name { background: white; color: #333; border: 1px solid #bbb; }
+.saved-filter-dropdown { display: none; }
 
 /* Expansion is application-owned; theme tests must preserve its geometry. */
 .details-container.height-limited, .description.height-limited { max-height: 48px; overflow: hidden; }

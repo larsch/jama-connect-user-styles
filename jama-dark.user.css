@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.17
+@version        0.2.18
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -805,25 +805,38 @@
     body .comment-stream :is(.comment-container, .comment-parent, .comment-replies,
                             .reply-single, .js-root-comment-text-wrapper,
                             .reply-comment-text),
-    body .comment-stream .reply-field-container .reply-field.inline-richtext {
+    body .comment-stream .reply-field-container .reply-field.inline-richtext,
+    body .add-comment-section.comment-stream-interaction .add-comment-field.inline-richtext {
       background-color: var(--jd-surface) !important;
       color: var(--jd-text) !important;
       border-color: var(--jd-border) !important;
       color-scheme: dark;
     }
-    body .comment-stream .reply-field.inline-richtext {
+    body .comment-stream .reply-field.inline-richtext,
+    body .add-comment-section.comment-stream-interaction .add-comment-field.inline-richtext {
       caret-color: var(--jd-text);
     }
+    /* Header filters are siblings of the thread list; preserve error borders. */
+    body .filter-options-wrap.comment-stream-interaction input:is(.filter-field, .js-saved-filter-name) {
+      background-color: var(--jd-bg) !important;
+      color: var(--jd-text) !important;
+      caret-color: var(--jd-text);
+      color-scheme: dark;
+    }
     body .comment-stream :is(.js-root-comment-text-wrapper, .reply-comment-text,
-                            .reply-field.inline-richtext) a {
+                            .reply-field.inline-richtext) a,
+    body .add-comment-section.comment-stream-interaction .add-comment-field.inline-richtext a {
       color: var(--jd-link);
     }
     body .comment-stream :is(.js-root-comment-text-wrapper, .reply-comment-text,
-                            .reply-field.inline-richtext) .at-mention-key {
+                            .reply-field.inline-richtext) .at-mention-key,
+    body .add-comment-section.comment-stream-interaction .add-comment-field.inline-richtext .at-mention-key {
       color: var(--jd-link);
     }
     body .comment-stream .reply-field-container :is(.inline-richtext-placeholder,
-                                                   .inline-richtext-placeholder span) {
+                                                   .inline-richtext-placeholder span),
+    body .add-comment-section.comment-stream-interaction :is(.inline-richtext-placeholder,
+                                                            .inline-richtext-placeholder span) {
       color: var(--jd-muted) !important;
     }
     /* Only plain Comment badges: action/issue/resolution badges keep their colors. */
