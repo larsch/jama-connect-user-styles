@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.18
+@version        0.2.19
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -832,6 +832,13 @@
                             .reply-field.inline-richtext) .at-mention-key,
     body .add-comment-section.comment-stream-interaction .add-comment-field.inline-richtext .at-mention-key {
       color: var(--jd-link);
+    }
+    /* Locked action text such as !issue has no mention class. Restore inherited
+       text color without overriding authored inline colors or classed status tokens. */
+    body .comment-stream :is(.js-root-comment-text-wrapper, .reply-comment-text,
+                            .reply-field.inline-richtext) span[contenteditable="false"]:not([class]),
+    body .add-comment-section.comment-stream-interaction .add-comment-field.inline-richtext span[contenteditable="false"]:not([class]) {
+      color: inherit;
     }
     body .comment-stream .reply-field-container :is(.inline-richtext-placeholder,
                                                    .inline-richtext-placeholder span),

@@ -477,8 +477,11 @@ with sync_playwright() as p:
                "stream-comment-reply", "stream-editor-container", "stream-editor"):
         assert style(el, "background-color") == "rgb(36, 36, 36)", el
         assert style(el, "color") == "rgb(245, 245, 245)", el
-    for el in ("stream-author", "stream-reply-author", "stream-reply-text", "stream-editor-text"):
+    for el in ("stream-author", "stream-reply-author", "stream-reply-text", "stream-editor-text",
+               "stream-issue-token", "stream-root-action-token", "stream-editor-action-token", "stream-new-action-token"):
         assert style(el, "color") == "rgb(245, 245, 245)", el
+    for el in ("stream-issue-token", "stream-root-action-token", "stream-editor-action-token", "stream-new-action-token"):
+        assert style(el, "background-color") == "rgba(0, 0, 0, 0)", el
     for el in ("stream-date", "stream-reply-date", "stream-placeholder", "stream-placeholder-text"):
         assert style(el, "color") == "rgb(196, 196, 196)", el
     for el in ("stream-mention", "stream-item-mention", "stream-reply-mention", "stream-editor-mention",
@@ -495,7 +498,7 @@ with sync_playwright() as p:
     for el in ("stream-issue-badge", "stream-avatar", "stream-submit", "stream-disabled-button",
                "stream-comment-diff", "stream-reply-diff", "stream-comment-authored", "stream-reply-authored",
                "stream-editor-authored", "stream-authored-link", "stream-authored-mention", "stream-comment-highlight",
-               "unrelated-reply", "unrelated-mention"):
+               "stream-colored-token", "stream-outside-action-token", "unrelated-reply", "unrelated-mention"):
         for prop in ("background-color", "color"):
             assert style(el, prop) == stream_baseline[el][prop], (el, prop)
     assert style("unrelated-reply-editor", "background-color") == "rgb(255, 255, 255)"

@@ -92,6 +92,8 @@ body { background: white; color: #282828; font: 14px sans-serif; }
 .comment-type-lozenge[data-artifactids="example"] { background: #ffdb9a; color: #633b00; }
 .no-img-avatar { background: white; color: #6083dd; border: 1px solid #6083dd; }
 .decision-gem { background: #49aa66; }
+/* Locked action-token stand-in: an explicit foreground defeats body inheritance. */
+span[contenteditable="false"] { color: #333; }
 .at-mention-key { color: #333; }
 .at-mention-key::before { content: "@"; color: inherit; }
 .comment-control-container a { color: #777; }
