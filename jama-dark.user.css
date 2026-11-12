@@ -1,7 +1,7 @@
 /* ==UserStyle==
 @name           JAMA Dark Mode
 @namespace      local.jama-dark
-@version        0.2.19
+@version        0.2.20
 @description    Dark surfaces and readable controls for Jama Connect.
 @author         Lars Christensen
 ==/UserStyle== */
@@ -869,6 +869,26 @@
     body .comment-stream .j-comment-actions :is(.js-agree-comment, .js-unagree-comment,
         .js-mute-notifications, .js-unmute-notifications):not([aria-disabled="true"]):hover {
       background-color: var(--jd-hover) !important;
+    }
+
+    /* Expanded reply chrome paints separately from the editable field. */
+    body .comment-stream .reply-field-container .reply-actions {
+      background-color: var(--jd-surface) !important;
+      color: var(--jd-text) !important;
+      border-color: var(--jd-border) !important;
+    }
+    /* Bitmap tools need a light backing, not inversion or replacement assets. */
+    body .comment-stream .reply-actions .comment-actions-group > .btn:is(
+        .js-item-reference, .js-scoped-object-reference, .js-image-upload):not(.btn-primary):not(.btn-danger):not(.btn-warning):not(.btn-success):not(.btn-info):not(.btn-inverse):not(.btn-link):not(:disabled):not(.disabled):not([aria-disabled="true"]) {
+      background-color: var(--jd-text) !important;
+      color: #202630 !important;
+      color-scheme: light;
+    }
+    body .comment-stream .reply-actions .reply-actions-dropdown-toggle:not(:disabled):not(.disabled):not([aria-disabled="true"]) > .comment-actions-button-icon {
+      color: inherit !important;
+    }
+    body .comment-stream .reply-actions .reply-actions-dropdown-toggle:not(:disabled):not(.disabled):not([aria-disabled="true"]) > .caret {
+      border-top-color: currentColor !important;
     }
 
     /* Stream is a separate page, not a descendant of .j-all-comments-panel. */

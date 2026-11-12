@@ -102,7 +102,12 @@ span[contenteditable="false"] { color: #333; }
 .resolve-control a { color: #2355c7; }
 .reply-field.inline-richtext { background: white; color: #333; border: 1px solid #bbb; }
 .inline-richtext-placeholder, .inline-richtext-placeholder span { color: #999; }
+.reply-actions { background: white; border: 1px solid #bbb; }
 .reply-actions .btn { background: #eee; color: #333; border: 1px solid #bbb; }
+/* Bitmap stand-ins: the theme must not remove or invert toolbar assets. */
+.reply-actions .icon { background-image: linear-gradient(#333, #666); }
+.reply-actions .comment-actions-button-icon { color: #606060; }
+.reply-actions .caret { border-top: 4px solid #606060; }
 .reply-actions .btn-primary, .add-comment-actions .btn-primary { background: #196fc4; color: white; }
 .reply-actions .btn:disabled { background: #ddd; color: #888; }
 

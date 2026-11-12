@@ -490,7 +490,7 @@ with sync_playwright() as p:
         assert style(el, "color") == "rgb(161, 221, 250)", el
     for el in ("stream-mention", "stream-reply-mention"):
         assert page.locator("#" + el).evaluate("el => getComputedStyle(el, '::before').color") == "rgb(161, 221, 250)", el
-    for el in ("stream-badge", "stream-resolve", "stream-cancel", "stream-mention-button", "stream-actions-button"):
+    for el in ("stream-badge", "stream-resolve", "stream-cancel", "stream-actions-button"):
         assert style(el, "background-color") == "rgb(44, 44, 44)", el
         assert style(el, "border-top-color") == "rgb(80, 80, 80)", el
     assert style("stream-badge", "color") == "rgb(245, 245, 245)"
@@ -516,6 +516,17 @@ with sync_playwright() as p:
     page.locator("#stream-editor").evaluate("el => el.insertAdjacentText('beforeend', ' More draft text')")
     assert "More draft text" in page.locator("#stream-editor").inner_text()
     page.locator("#stream-editor-actions").evaluate("el => el.style.display = ''")
+    page.locator("#stream-editor").evaluate("el => { el.classList.add('expanded-editor'); el.style.minHeight = '56px'; }")
+    assert style("stream-editor-actions", "background-color") == "rgb(36, 36, 36)"
+    assert style("stream-editor-actions", "border-top-color") == "rgb(80, 80, 80)"
+    assert style("stream-editor", "min-height") == "56px"
+    for el in ("stream-mention-button", "stream-hashtag-button", "stream-upload-button"):
+        assert style(el, "background-color") == "rgb(245, 245, 245)", el
+        assert style(el, "color") == "rgb(32, 38, 48)", el
+    assert style("stream-tool-sprite", "background-image") != "none"
+    assert style("stream-tool-sprite", "filter") == "none"
+    assert style("stream-actions-glyph", "color") == "rgb(245, 245, 245)"
+    assert style("stream-actions-caret", "border-top-color") == "rgb(245, 245, 245)"
     for el in ("stream-cancel", "stream-resolve", "stream-agree"):
         page.locator("#" + el).hover()
         assert style(el, "background-color") == "rgb(53, 58, 47)", el
